@@ -34,7 +34,7 @@ const Background = () => {
         </div>
       </div>
       <div className="flex justify-center items-center text-white text-lg my-28">
-            <p>Have other questions? <span className="text-[#3ea6ff]">Visit the YouTube Help Center</span> </p>
+            <p>Have other questions? <span className="text-[#3ea6ff]">Visit the Music Help Center</span> </p>
       </div>
     </div>
   );

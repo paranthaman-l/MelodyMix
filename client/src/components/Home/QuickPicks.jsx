@@ -12,6 +12,7 @@ import {
 import Rows4Song from "./4RowsSong";
 const QuickPicks = () => {
   const containerRef = useRef(null);
+  
   const handleClick = (side) => {
     const contentDiv = containerRef.current;
     const scrollDistance = side === "left" ? -100 : 900;

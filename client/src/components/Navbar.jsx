@@ -60,6 +60,7 @@ const Navbar = () => {
   useEffect(() => {
     window.addEventListener("scroll", onScroll);
     document.addEventListener("mousedown", handleClickOutside);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <div
@@ -156,6 +157,7 @@ const Navbar = () => {
           {isShowMenu && (
             <List
               lists={menuLinks}
+              // eslint-disable-next-line react/style-prop-object
               style={"rounded-md w-[300px] right-16 mt-2"}
             />
           )}

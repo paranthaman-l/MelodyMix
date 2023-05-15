@@ -4,7 +4,7 @@ import Audio from "./Audio";
 import { useStates } from "../../context/useStates";
 
 const Slider = () => {
-  const [value, setValue] = useState(50);
+  const [value, setValue] = useState(0);
   const { audioRef } = useStates();
   useEffect(() => {
     const handleTimeUpdate = () => {
@@ -38,7 +38,7 @@ const Slider = () => {
         id=""
       />
       <style>{`
-        input[type=range]::-webkit-slider-runnable-track {
+        .audio_slider input[type=range]::-webkit-slider-runnable-track {
           background: linear-gradient(to right, #29dc5e 0%, #29dc5e ${value}%, #383838 ${value}%, #383838 100%);
           height: 2px;
         }

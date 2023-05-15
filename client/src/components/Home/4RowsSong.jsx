@@ -38,6 +38,7 @@ const SingleSongComponent = ({ song, i }) => {
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <li

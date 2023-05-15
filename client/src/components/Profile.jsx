@@ -307,7 +307,7 @@ const Profile = ({ profileRef }) => {
                   <div
                     onClick={() => setChooseOptions(1)}
                     className={`${
-                      chooseOptions == 1 && "text-[#8ab4f8]"
+                      chooseOptions === 1 && "text-[#8ab4f8]"
                     } w-1/2 flex flex-col  items-center cursor-pointer hover:bg-gray-500 h-full hover:bg-opacity-20 group py-2`}
                   >
                     <MdOutlineColorLens className="group-hover:text-white" />

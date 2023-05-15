@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { FaPlay } from "react-icons/fa";
 import {
   TbPlayerSkipBackFilled,

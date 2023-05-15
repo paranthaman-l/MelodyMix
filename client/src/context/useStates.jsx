@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getUser, logout, setUser } from "../Slice/UserSlice";
 import UserServices from "../services/UserServices";
-import bcrypt, { hash } from "bcryptjs";
 import { Storage } from "aws-amplify";
 
 const Context = createContext();
@@ -53,8 +52,6 @@ export const States = ({ children }) => {
   };
   const handleSignUp = async (e) => {
     e.preventDefault();
-    const hashedPassword = bcrypt.hashSync(signUpFormUser.password, 10);
-    signInFormUser.password = hashedPassword;
     setTimeout(async () => {
       const response = await UserServices.signUpUser(signUpFormUser);
       dispatch(setUser(response.data));
@@ -64,16 +61,7 @@ export const States = ({ children }) => {
   const handleSignIn = async (e) => {
     e.preventDefault();
     const response = (await UserServices.signInUser(signInFormUser.email)).data;
-    bcrypt.compare(
-      signInFormUser.password,
-      response.password,
-      function (err, isMatch) {
-        if (err) throw err;
-        else {
-          console.log(isMatch);
-        }
-      }
-    );
+
     dispatch(setUser(response));
     localStorage.setItem("user", response.uid);
   };

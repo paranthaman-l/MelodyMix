@@ -17,4 +17,5 @@ class UserServices {
     return axios.get(`/users/getuser`, { params: { uid: uid } });
   }
 }
+// eslint-disable-next-line import/no-anonymous-default-export
 export default new UserServices();
