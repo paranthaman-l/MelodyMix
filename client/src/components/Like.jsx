@@ -10,8 +10,7 @@ const Like = ({ style }) => {
   const user = useSelector(getUser);
   const [like, setLike] = useState(false);
   useEffect(() => {
-    const isLikeSong = user.likedsongs.find((sid) => sid ==currentSong.id);
-    console.log(isLikeSong);
+    const isLikeSong = user?.likedsongs?.find((sid) => sid ==currentSong.id);
     if (isLikeSong) {
       setLike(true);
     } else setLike(false);

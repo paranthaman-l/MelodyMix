@@ -1,6 +1,7 @@
 package com.music.models;
 
 import java.util.List;
+import java.util.Set;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -35,7 +36,7 @@ public class User {
     @JoinColumn(name = "fk_uid", referencedColumnName = "uid")
     private List<PlayList> playlists;
 
-    private List<String> likedsongs;
+    private Set<String> likedsongs;
 
     public User() {
         super();
@@ -43,7 +44,7 @@ public class User {
 
     public User(String uid, String email, String password, String username, Boolean ispublic, List<String> profile,
             boolean ischannel, int supporters, boolean ispremium, List<String> favartists, List<Song> songs,
-            List<PlayList> playlists, List<String> likedsongs) {
+            List<PlayList> playlists, Set<String> likedsongs) {
         this.uid = uid;
         this.email = email;
         this.password = password;
@@ -155,11 +156,11 @@ public class User {
         this.playlists = playlists;
     }
 
-    public List<String> getLikedsongs() {
+    public Set<String> getLikedsongs() {
         return likedsongs;
     }
 
-    public void setLikedsongs(List<String> likedsongs) {
+    public void setLikedsongs(Set<String> likedsongs) {
         this.likedsongs = likedsongs;
     }
 

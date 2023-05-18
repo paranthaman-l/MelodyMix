@@ -1,13 +1,11 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
-import { signUpQuotes } from "../constants";
 import SignUp from "./SignUp";
 import { useStates } from "../context/useStates";
 
 const SignIn = ({ signUpRef }) => {
-  const { handleChangeSignInFormData,handleSignIn } = useStates();
+  const { handleChangeSignInFormData,handleSignIn,quote } = useStates();
   const [isFlipped, setIsFlipped] = useState(false);
-  const quote = signUpQuotes[Math.floor(Math.random() * signUpQuotes.length)];
   return (
     <div className="h-screen flex justify-center items-center absolute bg-[#040405] left-0 top-0 w-full bg-opacity-70 duration-500 transition-transform">
       <div

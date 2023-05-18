@@ -2,8 +2,11 @@
 import { useState } from "react";
 import { libraryList } from "../../constants";
 import { libraryContent } from "../../components";
+import { useSelector } from "react-redux";
+import { getUser } from "../../Slice/UserSlice";
 const Library = () => {
   const [isLibraryActive, setIsLibraryActive] = useState(-1);
+  const user = useSelector(getUser);
   return (
     <div className="bg-black flex flex-col top-20 text-white min-h-screen">
       <LibraryFilters
@@ -11,7 +14,17 @@ const Library = () => {
         setIsLibraryActive={setIsLibraryActive}
       />
       {isLibraryActive === -1 ? (
-        <div className=""></div>
+        <div className="grid grid-flow-row gap-3 mt-24 px-20">
+          {user?.likedsong?.length !== 0 && (
+            <div className="h-40 w-40 ">
+              <img
+                className="h-full w-full rounded-md cursor-pointer"
+                src="https://www.gstatic.com/youtube/media/ytm/images/pbg/liked-music-@576.png"
+                alt=""
+              />
+            </div>  
+          )}
+        </div>
       ) : (
         <div className="mt-20">
           {libraryContent.map((library, i) => {

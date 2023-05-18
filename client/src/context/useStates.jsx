@@ -8,11 +8,13 @@ import { useNavigate } from "react-router-dom";
 import { getUser, logout, setUser } from "../Slice/UserSlice";
 import UserServices from "../services/UserServices";
 import { Storage } from "aws-amplify";
+import { signUpQuotes } from "../constants";
 
 const Context = createContext();
 
 export const States = ({ children }) => {
   const user = useSelector(getUser);
+  const quote = signUpQuotes[Math.floor(Math.random() * signUpQuotes.length)];
   const dispatch = useDispatch();
   //! Variable Declarations
   const [signUpFormUser, setSignUpFormUser] = useState({
@@ -88,12 +90,12 @@ export const States = ({ children }) => {
 
   const handleSignOut = (e) => {
     e.preventDefault();
+    setCurrentSong(null);
     dispatch(logout());
     setSignInFormUser({
       username: "",
       password: "",
     });
-    setCurrentSong(null);
     navigate("/home");
     localStorage.removeItem("user");
   };
@@ -122,9 +124,13 @@ export const States = ({ children }) => {
   };
 
   const addLikedSong = async (sid) => {
-    const response = (await UserServices.addLikedSong(user?.uid, sid)).data;
-    dispatch(setUser(response));
-    console.log(response);
+    if (user?.uid) {
+      const response = (await UserServices.addLikedSong(user?.uid, sid)).data;
+      dispatch(setUser(response));
+    }
+    else{
+
+    }
   };
   //! Functions Declarations End ---------------------------------------------------------------------------------------------------------------------------------
 
@@ -174,6 +180,7 @@ export const States = ({ children }) => {
         isLoop,
         setIsLoop,
         addLikedSong,
+        quote,
       }}
     >
       {children}

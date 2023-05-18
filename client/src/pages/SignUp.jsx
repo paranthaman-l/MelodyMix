@@ -1,10 +1,8 @@
 /* eslint-disable react/prop-types */
-import { signUpQuotes } from "../constants";
 import { useStates } from "../context/useStates";
 
 const SignUp = ({ isFlipped, setIsFlipped }) => {
-  const { handleChangeSignUpFormData, handleSignUp,signUpFormUser } = useStates();
-  const quote = signUpQuotes[Math.floor(Math.random() * signUpQuotes.length)];
+  const { handleChangeSignUpFormData, handleSignUp,signUpFormUser,quote } = useStates();
   return (
     <div className="flex w-full flex-col  duration-500">
       <h1 className="text-4xl font-poppins  font-semibold p-3 flex justify-start w-full">

@@ -1,8 +1,10 @@
 package com.music.services;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,11 +100,16 @@ public class UserServices {
     public User addLikedSong(String uid, String sid) {
         User user = userRepo.findById(uid).get();
         if (user.getLikedsongs() == null) {
-            List<String> likedSongs = new ArrayList<>();
+            Set<String> likedSongs = new HashSet<>();
             likedSongs.add(sid);
             user.setLikedsongs(likedSongs);
         } else {
-            user.getLikedsongs().add(sid);
+            if(user.getLikedsongs().add(sid)){
+                user.getLikedsongs().add(sid);
+            }
+            else{
+                deleteLikedSong(uid, sid);
+            }
         }
         return userRepo.save(user);
     }
