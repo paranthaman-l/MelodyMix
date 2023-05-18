@@ -1,6 +1,7 @@
 package com.music.services;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,8 @@ public class SongServices {
     }
 
     public String addSong(Song song) {
+        UUID sid = UUID.randomUUID();
+        song.setSid(sid.toString());
         songRepo.save(song);
         return "Song Added";
     }

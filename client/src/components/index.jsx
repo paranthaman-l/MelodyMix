@@ -9,6 +9,7 @@ import Artists from "./Library/Artists";
 import TrendingSongs from "./Home/TrendingSongs";
 import Top from "./Upgrade/Top";
 import Player from "./Player/Player";
+import ChannelTop from "./Channel/ChannelTop";
 const libraryContent = [<PlayList />, <Songs />, <Albums />, <Artists />];
 export {
   Navbar,
@@ -18,5 +19,6 @@ export {
   libraryContent,
   TrendingSongs,
   Top,
-  Player
+  Player,
+  ChannelTop
 };

@@ -1,5 +1,6 @@
 package com.music.controllers;
 
+import java.lang.annotation.Repeatable;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,8 +39,8 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public User loginUser(@RequestParam String email) {
-        return userServices.loginUser(email);
+    public String loginUser(@RequestParam String email,@RequestParam String password) {
+        return userServices.loginUser(email,password);
     }
 
     @PostMapping("/signup")
@@ -62,8 +63,8 @@ public class UserController {
         return userServices.deleteUser(uid);
     }
 
-    @PutMapping("/updateprofile/{uid}/{profile}")
-    public User updateProfile(@PathVariable String uid, @PathVariable String profile){
+    @PutMapping("/updateprofile")
+    public User updateProfile(@RequestParam String uid, @RequestParam String profile){
         return userServices.updateProfile(uid, profile);
     }
 

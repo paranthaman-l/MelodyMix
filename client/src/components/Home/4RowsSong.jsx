@@ -9,6 +9,7 @@ import {
 } from "react-icons/ai";
 import { useEffect, useRef, useState } from "react";
 import { songOptions } from "../../constants";
+import { useStates } from "../../context/useStates";
 const Rows4Song = ({ containerRef, songs }) => {
   return (
     <div>
@@ -25,6 +26,7 @@ const Rows4Song = ({ containerRef, songs }) => {
 };
 
 const SingleSongComponent = ({ song, i }) => {
+  const { setCurrentSongPlaying } = useStates();
   const songDivRef = useRef(null);
   const [isShowOptions, setIsShowOptions] = useState(false);
   const handleClickOutside = (event) => {
@@ -38,7 +40,7 @@ const SingleSongComponent = ({ song, i }) => {
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <li
@@ -56,7 +58,10 @@ const SingleSongComponent = ({ song, i }) => {
         />
       </div>
       <div className="flex flex-col font-roboto overflow-y-hidden w-full justify-start ml-2">
-        <p className="text-[16px] font-semibold group-hover:w-52  whitespace-nowrap overflow-hidden text-ellipsis cursor-pointer">
+        <p
+          onClick={() => setCurrentSongPlaying(song)}
+          className="text-[16px] font-semibold group-hover:w-52  whitespace-nowrap overflow-hidden text-ellipsis cursor-pointer"
+        >
           {song.title}
         </p>
         <p className="text-[16px] text-half-black  overflow-hidden ">

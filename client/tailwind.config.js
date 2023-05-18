@@ -11,6 +11,7 @@ export default {
         "half-black": "rgba(255,255,255,0.5)",
         "half-black1": "#282828",
         "half-black2": "#3e3e3e",
+        "songUpload": "#282828",
         "black1": "#1f1f1f",
         "black2": "#2d2f31",
       },

@@ -24,6 +24,7 @@ const Profile = ({ profileRef }) => {
     loading,
     updatePath,
     setUpdatePath,
+    handleNavigate
   } = useStates();
   const user = useSelector(getUser);
   const [isUpdateProfile, setIsUpdateProfile] = useState(false);
@@ -102,7 +103,7 @@ const Profile = ({ profileRef }) => {
           </span>
         </div>
         <ul className="flex flex-col cursor-pointer mt-1 border-b-[2px] w-full border-half-black p-[2px] ">
-          <li className="flex items-center w-full hover:bg-[#373737] p-[9px]">
+          <li onClick={()=>{handleNavigate(`/channel/${user?.uid}`);}} className="flex items-center w-full hover:bg-[#373737] p-[9px]">
             <BiUser className="mx-7 text-2xl" />
             <p className="font-roboto ">Your Channel</p>
           </li>
@@ -379,7 +380,7 @@ const Profile = ({ profileRef }) => {
                         onClick={() => fileInputRef.current.click()}
                         className="flex justify-center items-center border-[1px] border-half-black  px-3 py-1  rounded-lg mr-1 hover:bg-[#373737]"
                       >
-                        <MdComputer className="mx-1 text-2xl" /> UploadFrom
+                        <MdComputer className="mx-1 text-2xl" /> Upload From
                         Computer
                       </button>
                       <button className="flex justify-center items-center border-[1px] border-half-black px-3 py-1 rounded-lg ml-1 hover:bg-[#373737]">
@@ -442,6 +443,7 @@ const Profile = ({ profileRef }) => {
               ""
             )}
           </div>
+          
         </div>
       )}
     </>

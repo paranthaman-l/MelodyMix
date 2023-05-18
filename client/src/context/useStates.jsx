@@ -26,9 +26,13 @@ export const States = ({ children }) => {
     email: "",
     password: "",
   });
-
+  
   const audioRef = useRef(null);
   const [isPlay, setIsPlay] = useState(false);
+  const [isLoop, setIsLoop] = useState(false);
+
+  const [currentSong, setCurrentSong] = useState(null);
+
   const [loading, setIsLoading] = useState(false);
 
   const [updatePath, setUpdatePath] = useState(1);
@@ -60,15 +64,37 @@ export const States = ({ children }) => {
   };
   const handleSignIn = async (e) => {
     e.preventDefault();
-    const response = (await UserServices.signInUser(signInFormUser.email)).data;
-
-    dispatch(setUser(response));
-    localStorage.setItem("user", response.uid);
+    if (
+      signInFormUser.email.trim() !== "" &&
+      signInFormUser.password.trim() !== ""
+    ) {
+      const response = (
+        await UserServices.signInUser(
+          signInFormUser.email,
+          signInFormUser.password
+        )
+      ).data;
+      if (response !== "Invalid email" && response !== "Invalid password") {
+        const responseData = await UserServices.getUser(response);
+        dispatch(setUser(responseData.data));
+        localStorage.setItem("user", responseData.data.uid);
+      } else {
+        console.log(response);
+      }
+    } else {
+      console.log("Enter Email and Password");
+    }
   };
 
   const handleSignOut = (e) => {
     e.preventDefault();
     dispatch(logout());
+    setSignInFormUser({
+      username: "",
+      password: "",
+    });
+    setCurrentSong(null);
+    navigate("/home");
     localStorage.removeItem("user");
   };
 
@@ -90,6 +116,10 @@ export const States = ({ children }) => {
       setUpdatePath(1);
     }, 2000);
   };
+
+  const setCurrentSongPlaying = (song) => {
+    setCurrentSong(song);
+  };
   //! Functions Declarations End ---------------------------------------------------------------------------------------------------------------------------------
 
   //! UseEffects Declarations
@@ -105,6 +135,11 @@ export const States = ({ children }) => {
     };
     getUser();
   }, []);
+
+  useEffect(() => {
+    audioRef.current?.play();
+    setIsPlay(true);
+  }, [currentSong]);
 
   //! UseEffects Declarations End ---------------------------------------------------------------------------------------------------------------------------------
   return (
@@ -127,6 +162,11 @@ export const States = ({ children }) => {
         audioRef,
         isPlay,
         setIsPlay,
+        currentSong,
+        setCurrentSong,
+        setCurrentSongPlaying,
+        isLoop,
+        setIsLoop,
       }}
     >
       {children}

@@ -13,6 +13,7 @@ import com.music.models.User;
 import com.music.repository.PlayListRepo;
 import com.music.repository.SongRepo;
 import com.music.repository.UserRepo;
+import com.music.utils.PasswordUtils;
 
 @Service
 public class UserServices {
@@ -28,17 +29,21 @@ public class UserServices {
         return userRepo.findAll();
     }
 
-    public User loginUser(String email) {
+    public String loginUser(String email, String password) {
         User user = userRepo.findByEmail(email);
-        return user;
+        if(user==null)
+            return "Invalid email";
+        if(PasswordUtils.matchPassword(password, user.getPassword()))
+            return user.getUid();
+        return "Invalid password";
     }
 
     public User signupUser(User user) {
         User existUser = userRepo.findByEmail(user.getEmail());
         if (existUser == null) {
             UUID uuid = UUID.randomUUID();
-            System.out.println(uuid.toString());
             user.setUid(uuid.toString());
+            user.setPassword(PasswordUtils.encryptPassword(user.getPassword()));
             return userRepo.save(user);
         }
         return null;
@@ -66,6 +71,8 @@ public class UserServices {
 
     public User addSong(String uid, Song song) {
         User user = userRepo.findById(uid).get();
+        UUID sid = UUID.randomUUID();
+        song.setSid(sid.toString());
         user.getSongs().add(song);
         return userRepo.save(user);
     }

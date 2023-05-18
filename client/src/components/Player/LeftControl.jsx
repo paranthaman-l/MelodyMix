@@ -13,7 +13,6 @@ const LeftControl = () => {
   const [endTime, setEndTime] = useState("00:00");
   useEffect(() => {
     const handleTimeUpdate = () => {
-      console.log("time updated");
       currentTime(audioRef.current?.currentTime);
       duration(audioRef.current?.currentTime);
     };

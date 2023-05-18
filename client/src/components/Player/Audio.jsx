@@ -2,15 +2,15 @@ import React from "react";
 import { useStates } from "../../context/useStates";
 
 const Audio = () => {
-  const { audioRef } = useStates();
+  const { audioRef,currentSong,isLoop } = useStates();
+
   return (
     <div>
       <audio
         className="h-10 mx-3"
         ref={audioRef}
-        src={
-          "https://music-data-bucket.s3.ap-south-1.amazonaws.com/public/Mayilirage.mp3"
-        }
+        src={currentSong?.url}
+        loop={isLoop}
       ></audio>
     </div>
   );

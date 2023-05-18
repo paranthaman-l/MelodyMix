@@ -16,6 +16,9 @@ html {
   background: #717171;
 }
 
+input[type="range"]::-webkit-slider-thumb {
+	background: #29dc5e;
+}
 
 /* Selected state */
 .form-radio:checked {
