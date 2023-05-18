@@ -1,5 +1,6 @@
 package com.music.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -31,9 +32,9 @@ public class UserServices {
 
     public String loginUser(String email, String password) {
         User user = userRepo.findByEmail(email);
-        if(user==null)
+        if (user == null)
             return "Invalid email";
-        if(PasswordUtils.matchPassword(password, user.getPassword()))
+        if (PasswordUtils.matchPassword(password, user.getPassword()))
             return user.getUid();
         return "Invalid password";
     }
@@ -96,7 +97,13 @@ public class UserServices {
 
     public User addLikedSong(String uid, String sid) {
         User user = userRepo.findById(uid).get();
-        user.getLikedsongs().add(sid);
+        if (user.getLikedsongs() == null) {
+            List<String> likedSongs = new ArrayList<>();
+            likedSongs.add(sid);
+            user.setLikedsongs(likedSongs);
+        } else {
+            user.getLikedsongs().add(sid);
+        }
         return userRepo.save(user);
     }
 
@@ -135,7 +142,7 @@ public class UserServices {
 
     public User updateProfile(String uid, String profile) {
         User user = userRepo.findById(uid).get();
-        System.out.println(uid+profile);
+        System.out.println(uid + profile);
         user.getProfile().add(profile);
         return userRepo.save(user);
     }

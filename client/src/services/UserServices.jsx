@@ -20,6 +20,12 @@ class UserServices {
   getUser(uid) {
     return axios.get(`/users/getuser`, { params: { uid: uid } });
   }
+  addLikedSong(uid, sid) {
+    console.log(uid,sid);
+    return axios.get(`/users/addlikedsong`, {
+      params: { uid: uid ,sid:sid},
+    });
+  }
 }
 // eslint-disable-next-line import/no-anonymous-default-export
 export default new UserServices();

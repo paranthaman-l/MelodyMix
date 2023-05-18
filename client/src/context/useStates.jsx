@@ -26,7 +26,7 @@ export const States = ({ children }) => {
     email: "",
     password: "",
   });
-  
+
   const audioRef = useRef(null);
   const [isPlay, setIsPlay] = useState(false);
   const [isLoop, setIsLoop] = useState(false);
@@ -120,6 +120,12 @@ export const States = ({ children }) => {
   const setCurrentSongPlaying = (song) => {
     setCurrentSong(song);
   };
+
+  const addLikedSong = async (sid) => {
+    const response = (await UserServices.addLikedSong(user?.uid, sid)).data;
+    dispatch(setUser(response));
+    console.log(response);
+  };
   //! Functions Declarations End ---------------------------------------------------------------------------------------------------------------------------------
 
   //! UseEffects Declarations
@@ -167,6 +173,7 @@ export const States = ({ children }) => {
         setCurrentSongPlaying,
         isLoop,
         setIsLoop,
+        addLikedSong,
       }}
     >
       {children}

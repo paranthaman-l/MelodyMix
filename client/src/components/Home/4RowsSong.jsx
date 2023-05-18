@@ -2,14 +2,17 @@
 import { BsFillPlayFill } from "react-icons/bs";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import {
+  AiFillLike,
   //   AiFillDislike,
   //   AiFillLike,
   AiOutlineDislike,
   AiOutlineLike,
 } from "react-icons/ai";
 import { useEffect, useRef, useState } from "react";
-import { songOptions } from "../../constants";
+import { songOptions, songs } from "../../constants";
 import { useStates } from "../../context/useStates";
+import { useSelector } from "react-redux";
+import { getUser } from "../../Slice/UserSlice";
 const Rows4Song = ({ containerRef, songs }) => {
   return (
     <div>
@@ -42,6 +45,16 @@ const SingleSongComponent = ({ song, i }) => {
     document.addEventListener("mousedown", handleClickOutside);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  const { addLikedSong, currentSong } = useStates();
+  const user = useSelector(getUser);
+  const [like, setLike] = useState(false);
+  useEffect(() => {
+      const isLikeSong = user?.likedsongs?.find((sid) => sid == song?.id);
+      console.log(isLikeSong);
+      if (isLikeSong) {
+        setLike(true);
+      } else setLike(false);
+  }, [currentSong, song?.id, user]);
   return (
     <li
       className="snap-start relative mt-3 flex items-center w-[410px] overflow-hidden  mb-2 mr-[14px] group"
@@ -78,8 +91,15 @@ const SingleSongComponent = ({ song, i }) => {
         <span className="rounded-full flex justify-center items-center  cursor-pointer w-10 h-10 hover:bg-half-black1">
           <AiOutlineDislike className="text-xl" />
         </span>
-        <span className="rounded-full flex justify-center items-center  cursor-pointer w-10 h-10 hover:bg-half-black1">
-          <AiOutlineLike className="text-xl" />
+        <span
+          onClick={() => addLikedSong(song.id)}
+          className="rounded-full flex justify-center items-center  cursor-pointer w-10 h-10 hover:bg-half-black1"
+        >
+          {like ? (
+            <AiFillLike className="text-xl" />
+          ) : (
+            <AiOutlineLike className="text-xl" />
+          )}
         </span>
         <span
           // onClick={() => setIsShowOptions(!isShowOptions)}
