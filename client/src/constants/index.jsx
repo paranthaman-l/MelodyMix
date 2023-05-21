@@ -46,6 +46,27 @@ const navLinks = [
   },
 ];
 
+const adminNavLinks = [
+  {
+    id: "home",
+    title: "Home",
+    icon: <SlHome />,
+    link: "admin/home",
+  },
+  {
+    id: "users",
+    title: "Users",
+    icon: <IoCompassOutline />,
+    link: "admin/users",
+  },
+  {
+    id: "songs",
+    title: "Songs",
+    icon: <MdOutlineLibraryMusic />,
+    link: "admin/songs",
+  },
+];
+
 const menuLinks = [
   {
     id: "youtube",
@@ -161,4 +182,5 @@ export {
   songOptions,
   libraryList,
   profileList,
+  adminNavLinks,
 };

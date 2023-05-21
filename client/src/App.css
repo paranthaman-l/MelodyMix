@@ -94,7 +94,7 @@ input[type="range"]::-webkit-slider-thumb {
 	bottom: 0;
 	width: 100%;
 	height: 2px;
-	background: #29dc5e;
+	/* background: #29dc5e; */
 	border-radius: 4px;
 	overflow: hidden;
 	transition: 0.5s;
@@ -114,3 +114,5 @@ input[type="range"]::-webkit-slider-thumb {
 	background-repeat: no-repeat;
 	height: 630px;
 }
+
+

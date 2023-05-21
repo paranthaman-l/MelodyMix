@@ -50,7 +50,6 @@ const SingleSongComponent = ({ song, i }) => {
   const [like, setLike] = useState(false);
   useEffect(() => {
       const isLikeSong = user?.likedsongs?.find((sid) => sid == song?.id);
-      console.log(isLikeSong);
       if (isLikeSong) {
         setLike(true);
       } else setLike(false);

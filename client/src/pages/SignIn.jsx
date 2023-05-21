@@ -4,7 +4,8 @@ import SignUp from "./SignUp";
 import { useStates } from "../context/useStates";
 
 const SignIn = ({ signUpRef }) => {
-  const { handleChangeSignInFormData,handleSignIn,quote } = useStates();
+  const { handleChangeSignInFormData, handleSignIn, quote, signInError } =
+    useStates();
   const [isFlipped, setIsFlipped] = useState(false);
   return (
     <div className="h-screen flex justify-center items-center absolute bg-[#040405] left-0 top-0 w-full bg-opacity-70 duration-500 transition-transform">
@@ -23,17 +24,43 @@ const SignIn = ({ signUpRef }) => {
               action=""
               onSubmit={handleSignIn}
             >
-              <div className="inputBox relative w-9/12 mx-auto">
-                <input onChange={handleChangeSignInFormData} name="email" className="w-full" type="text" required="required" />
+              <div className="inputBox relative w-9/12 mx-auto ">
+                <input
+                  onChange={handleChangeSignInFormData}
+                  name="email"
+                  className="w-full"
+                  type="text"
+                  required="required"
+                />
                 <span className="absolute">Email</span>
-                <i className="absolute"></i>
+                <i
+                  className={`absolute bg-green ${
+                    signInError?.emailError && "bg-pink-700"
+                  }`}
+                ></i>
+                <p className="absolute -bottom-4 right-0 text-white text-xs">
+                  {signInError?.emailError}
+                </p>
               </div>
               <div className="inputBox relative w-9/12 mx-auto">
-                <input onChange={handleChangeSignInFormData} name="password" className="w-full" type="password" required="required" />
+                <input
+                  onChange={handleChangeSignInFormData}
+                  name="password"
+                  className="w-full"
+                  type="password"
+                  required="required"
+                />
                 <span className="absolute">Password</span>
-                <i className="absolute"></i>
+                <i
+                  className={`absolute bg-green ${
+                    signInError?.passwordError && "bg-pink-700"
+                  }`}
+                ></i>
+                <p className="absolute -bottom-4 right-0 text-white text-xs">
+                  {signInError?.passwordError}
+                </p>
               </div>
-              <div className="flex justify-between mx-auto w-9/12 text-gray-300 mt-2">
+              <div className="flex justify-between mx-auto w-9/12 text-gray-300 mt-4">
                 <span>forget password? </span>
                 <span
                   className="cursor-pointer"

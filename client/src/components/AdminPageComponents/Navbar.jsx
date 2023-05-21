@@ -1,19 +1,22 @@
-import { useState, useEffect, useRef } from "react";
-import { navLinks, menuLinks, homeMode } from "../constants";
-import { FaChromecast } from "react-icons/fa";
-import { SiYoutubemusic } from "react-icons/si";
-import { IoSearchOutline } from "react-icons/io5";
-import { BiDotsVerticalRounded, BiArrowBack } from "react-icons/bi";
-import { MdOutlineClear } from "react-icons/md";
-import List from "./List";
-import { useStates } from "../context/useStates";
-import Profile from "./Profile";
 import { useSelector } from "react-redux";
-import { getUser } from "../Slice/UserSlice";
-import { SignIn } from "../pages";
+import { getUser } from "../../Slice/UserSlice";
+import { useStates } from "../../context/useStates";
+import { useEffect, useRef, useState } from "react";
+import { SiYoutubemusic } from "react-icons/si";
+import { BiArrowBack, BiDotsVerticalRounded } from "react-icons/bi";
+import { MdOutlineClear } from "react-icons/md";
+import { IoSearchOutline } from "react-icons/io5";
+import { FaChromecast } from "react-icons/fa";
+import { adminNavLinks, homeMode, menuLinks, navLinks } from "../../constants";
+import List from "../List";
+import { SignIn } from "../../pages";
+import Profile from "../AdminPageComponents/Profile";
+import { getAdmin } from "../../Slice/AdminSlice";
+
+// import { SignIn } from "../pages";
 const Navbar = () => {
   const { handleNavigate } = useStates();
-  const user = useSelector(getUser);
+  const admin = useSelector(getAdmin);
   const [isShowMenu, setIsShowMenu] = useState(false);
   const [isShowSearch, setIsShowSearch] = useState(false);
   const [isShowProfile, setIsShowProfile] = useState(false);
@@ -60,7 +63,7 @@ const Navbar = () => {
   useEffect(() => {
     window.addEventListener("scroll", onScroll);
     document.addEventListener("mousedown", handleClickOutside);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <div
@@ -74,7 +77,7 @@ const Navbar = () => {
       } `}
     >
       <div className="logo cursor-pointer">
-        <span onClick={()=>handleNavigate('/')} className="flex items-center justify-center text-2xl text-white font-bold">
+        <span className="flex items-center justify-center text-2xl text-white font-bold">
           <SiYoutubemusic className="text-green bg-white rounded-full mr-1 max-sm:text-3xl" />
           <p className="tracking-tighter max-md:text-xl">Music</p>
         </span>
@@ -107,7 +110,7 @@ const Navbar = () => {
         )}
         <div className="flex justify-center items-center lg:mx-auto">
           <ul className="flex items-center max-xl:justify-evenly w-full max-lg:fixed max-lg:bottom-0 max-sm:w-full pb-2 px-0  max-lg:bg-black max-lg:border-t-[1px] max:lg:border-opacity-10 max-lg:border-half-black2 left-0 lg:justify-evenly max-lg:items-center max-lg:mx-auto ">
-            {navLinks.map((navLink) => (
+            {adminNavLinks.map((navLink) => (
               <li
                 className={`text-xl font-semibold cursor-pointer mx-5 max-lg:mx-3 max-lg:text-lg md:mx-4 `}
                 key={navLink.id}
@@ -162,7 +165,7 @@ const Navbar = () => {
             />
           )}
         </span>
-        {user === null ? (
+        {admin === null ? (
           <>
             <div className="" ref={signUpRef}>
               <button
@@ -180,11 +183,7 @@ const Navbar = () => {
               className={`w-full h-full cursor-pointer rounded-full ${
                 isShowProfile && "bg-slate-500 rounded-2xl"
               }`}
-              src={
-                `https://music-data-bucket.s3.ap-south-1.amazonaws.com/public/${
-                  user?.profile[user?.profile?.length - 1]
-                }` || ""
-              }
+              src={"https://res.cloudinary.com/dnzd8rvd4/image/upload/v1684648965/IMG_20230515_062105_955_kyromi.jpg"}
               alt=""
               onClick={() => setIsShowProfile(!isShowProfile)}
             />

@@ -21,9 +21,19 @@ class UserServices {
     return axios.get(`/users/getuser`, { params: { uid: uid } });
   }
   addLikedSong(uid, sid) {
-    console.log(uid,sid);
+    console.log(uid, sid);
     return axios.get(`/users/addlikedsong`, {
-      params: { uid: uid ,sid:sid},
+      params: { uid: uid, sid: sid },
+    });
+  }
+  userPagination(pagination) {
+    return axios.get(`/users/pagination`, {
+      params: {
+        pageSize: pagination.pageSize,
+        offset: pagination.offset,
+        field: pagination.field,
+        sortDirection: pagination.sortDirection,
+      },
     });
   }
 }

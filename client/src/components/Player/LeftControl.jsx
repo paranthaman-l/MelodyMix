@@ -17,10 +17,10 @@ const LeftControl = () => {
       duration(audioRef.current?.currentTime);
     };
 
-    audioRef.current.addEventListener("timeupdate", handleTimeUpdate);
+    audioRef?.current?.addEventListener("timeupdate", handleTimeUpdate);
 
     return () => {
-      audioRef.current.removeEventListener("timeupdate", handleTimeUpdate);
+      audioRef?.current?.removeEventListener("timeupdate", handleTimeUpdate);
     };
   }, [audioRef]);
   function currentTime(time) {

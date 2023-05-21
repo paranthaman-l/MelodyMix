@@ -1,6 +1,4 @@
 package com.music.controllers;
-
-import java.lang.annotation.Repeatable;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +58,11 @@ public class UserController {
     @DeleteMapping("/delete")
     public String deleteUser(@RequestParam String uid) {
         return userServices.deleteUser(uid);
+    }
+
+    @GetMapping("/pagination")
+    public List<User> getUsersUsingPagination(@RequestParam int pageSize, @RequestParam int offset, @RequestParam String field,@RequestParam String sortDirction){
+        return userServices.getUsersUsingPagination(pageSize, offset,field,sortDirction);
     }
 
     @PutMapping("/updateprofile")

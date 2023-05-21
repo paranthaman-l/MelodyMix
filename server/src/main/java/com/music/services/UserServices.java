@@ -1,6 +1,4 @@
 package com.music.services;
-
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -8,6 +6,10 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.music.models.PlayList;
@@ -152,6 +154,16 @@ public class UserServices {
         System.out.println(uid + profile);
         user.getProfile().add(profile);
         return userRepo.save(user);
+    }
+
+    public List<User> getUsersUsingPagination(int pageSize, int offset, String field, String sortDirction) {
+        Pageable pageable;
+        if(sortDirction.equals("asc"))
+            pageable = PageRequest.of(pageSize, offset,Sort.by(Direction.ASC, field));
+        else
+            pageable = PageRequest.of(pageSize, offset,Sort.by(Direction.DESC, field));
+
+        return userRepo.findAll(pageable).getContent();
     }
 
 }

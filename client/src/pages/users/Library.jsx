@@ -4,7 +4,9 @@ import { libraryList } from "../../constants";
 import { libraryContent } from "../../components";
 import { useSelector } from "react-redux";
 import { getUser } from "../../Slice/UserSlice";
+import { useStates } from "../../context/useStates";
 const Library = () => {
+  const {handleNavigate} = useStates();
   const [isLibraryActive, setIsLibraryActive] = useState(-1);
   const user = useSelector(getUser);
   return (
@@ -18,6 +20,7 @@ const Library = () => {
           {user?.likedsong?.length !== 0 && (
             <div className="h-40 w-40 ">
               <img
+                onClick={()=>handleNavigate(`/likedsongs`)}
                 className="h-full w-full rounded-md cursor-pointer"
                 src="https://www.gstatic.com/youtube/media/ytm/images/pbg/liked-music-@576.png"
                 alt=""

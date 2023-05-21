@@ -8,16 +8,16 @@ const Slider = () => {
   const { audioRef } = useStates();
   useEffect(() => {
     const handleTimeUpdate = () => {
-      const currentTime = audioRef.current.currentTime;
-      const duration = audioRef.current.duration;
+      const currentTime = audioRef?.current?.currentTime;
+      const duration = audioRef?.current?.duration;
       const progress = (currentTime / duration) * 100;
       setValue(progress);
     };
 
-    audioRef.current.addEventListener("timeupdate", handleTimeUpdate);
+    audioRef.current?.addEventListener("timeupdate", handleTimeUpdate);
 
     return () => {
-      audioRef.current.removeEventListener("timeupdate", handleTimeUpdate);
+      audioRef.current?.removeEventListener("timeupdate", handleTimeUpdate);
     };
   }, [audioRef]);
   const handleChange = (event) => {
@@ -26,6 +26,7 @@ const Slider = () => {
     audioRef.current.currentTime = (value / 100) * duration;
     setValue(value);
   };
+
   return (
     <div className="absolute top-0 w-full left-0 flex items-start audio_slider">
       <Audio />
@@ -36,6 +37,9 @@ const Slider = () => {
         type="range"
         name=""
         id=""
+        style={{
+          "-webkit-slider-thumb": { "background-color": "green" },
+        }}
       />
       <style>{`
         .audio_slider input[type=range]::-webkit-slider-runnable-track {

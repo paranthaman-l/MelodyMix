@@ -10,6 +10,8 @@ import TrendingSongs from "./Home/TrendingSongs";
 import Top from "./Upgrade/Top";
 import Player from "./Player/Player";
 import ChannelTop from "./Channel/ChannelTop";
+import LikedSongTop from "./LikedSong/LikedSongTop";
+import ListOfLikedSongs from "./LikedSong/ListOfLikedSongs";
 const libraryContent = [<PlayList />, <Songs />, <Albums />, <Artists />];
 export {
   Navbar,
@@ -20,5 +22,7 @@ export {
   TrendingSongs,
   Top,
   Player,
-  ChannelTop
+  ChannelTop,
+  LikedSongTop,
+  ListOfLikedSongs,
 };
