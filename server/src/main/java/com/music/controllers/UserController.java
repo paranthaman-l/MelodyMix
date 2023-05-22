@@ -1,4 +1,5 @@
 package com.music.controllers;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +37,8 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public String loginUser(@RequestParam String email,@RequestParam String password) {
-        return userServices.loginUser(email,password);
+    public String loginUser(@RequestParam String email, @RequestParam String password) {
+        return userServices.loginUser(email, password);
     }
 
     @PostMapping("/signup")
@@ -46,7 +47,7 @@ public class UserController {
     }
 
     @GetMapping("/getuser")
-    public User getUser(@RequestParam String uid){
+    public User getUser(@RequestParam String uid) {
         return userServices.getUser(uid);
     }
 
@@ -61,12 +62,13 @@ public class UserController {
     }
 
     @GetMapping("/pagination")
-    public List<User> getUsersUsingPagination(@RequestParam int pageSize, @RequestParam int offset, @RequestParam String field,@RequestParam String sortDirction){
-        return userServices.getUsersUsingPagination(pageSize, offset,field,sortDirction);
+    public List<User> getUsersUsingPagination(@RequestParam int pageSize, @RequestParam int offset,
+            @RequestParam String field, @RequestParam String sortDirection) {
+        return userServices.getUsersUsingPagination(pageSize, offset, field, sortDirection);
     }
 
-    @PutMapping("/updateprofile")
-    public User updateProfile(@RequestParam String uid, @RequestParam String profile){
+    @GetMapping("/updateprofile")
+    public User updateProfile(@RequestParam String uid, @RequestParam String profile) {
         return userServices.updateProfile(uid, profile);
     }
 
@@ -86,8 +88,8 @@ public class UserController {
     }
 
     @GetMapping("/addlikedsong")
-    public User addLikedSong(@RequestParam String uid,@RequestParam String sid) {
-        return userServices.addLikedSong(uid,sid);
+    public User addLikedSong(@RequestParam String uid, @RequestParam String sid) {
+        return userServices.addLikedSong(uid, sid);
     }
 
     @DeleteMapping("/deletelikedsong")

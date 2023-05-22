@@ -37,9 +37,6 @@ const Slider = () => {
         type="range"
         name=""
         id=""
-        style={{
-          "-webkit-slider-thumb": { "background-color": "green" },
-        }}
       />
       <style>{`
         .audio_slider input[type=range]::-webkit-slider-runnable-track {
@@ -47,7 +44,7 @@ const Slider = () => {
           height: 2px;
         }
         .audio_slider input[type=range]::-webkit-slider-thumb {
-          background-color: transparent ;
+          background: #29dc5e !important;
           cursor: pointer;
           margin-top: -7px;
         }

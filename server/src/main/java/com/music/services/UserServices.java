@@ -156,9 +156,9 @@ public class UserServices {
         return userRepo.save(user);
     }
 
-    public List<User> getUsersUsingPagination(int pageSize, int offset, String field, String sortDirction) {
+    public List<User> getUsersUsingPagination(int pageSize, int offset, String field, String sortDirection) {
         Pageable pageable;
-        if(sortDirction.equals("asc"))
+        if(sortDirection.equals("asc"))
             pageable = PageRequest.of(pageSize, offset,Sort.by(Direction.ASC, field));
         else
             pageable = PageRequest.of(pageSize, offset,Sort.by(Direction.DESC, field));

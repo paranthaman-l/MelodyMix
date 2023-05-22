@@ -173,6 +173,24 @@ const signUpQuotes = [
   "Music is a higher revelation than all wisdom and philosophy",
   "Music can change the world because it can change people",
 ];
+
+const usersTableTitle = [
+  {
+    id: "username",
+    title: "User Name",
+    value: "username",
+  },
+  {
+    id: "email",
+    title: "Email",
+    value: "email",
+  },
+  {
+    id: "supporters",
+    title: "Supporters",
+    value: "supporters",
+  },
+];
 export {
   navLinks,
   menuLinks,
@@ -183,4 +201,5 @@ export {
   libraryList,
   profileList,
   adminNavLinks,
+  usersTableTitle,
 };

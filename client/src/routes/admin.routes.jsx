@@ -1,11 +1,10 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import ContextContainer from "../context/ContextContainer";
 import { Player } from "../components";
-import { Home, Library, PlayerPage } from "../pages";
-import Upgrade from "../pages/users/Upgrade";
-import Channel from "../pages/users/Channel";
-import LikedSongs from "../pages/users/LikedSongs";
+import { Home, PlayerPage } from "../pages";
 import Navbar from "../components/AdminPageComponents/Navbar";
+import Users from "../pages/admin/Users";
+import Songs from "../pages/admin/Songs";
 const AdminRoutes = () => {
   return (
     <div className="text-white">
@@ -15,11 +14,9 @@ const AdminRoutes = () => {
           <Routes>
             <Route path="admin/" element={<Home />} />
             <Route path="admin/home" element={<Home />} />
-            <Route path="admin/library" element={<Library />} />
-            <Route path="admin/upgrade" element={<Upgrade />} />
+            <Route path="admin/users" element={<Users />} />
+            <Route path="admin/songs" element={<Songs />} />
             <Route path="admin/player" element={<PlayerPage />} />
-            <Route path="admin/channel/:uid" element={<Channel />} />
-            <Route path="admin/likedsongs" element={<LikedSongs />} />
           </Routes>
           <Player />
         </ContextContainer>

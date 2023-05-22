@@ -10,12 +10,12 @@ import UserServices from "../services/UserServices";
 import { Storage } from "aws-amplify";
 import { signUpQuotes } from "../constants";
 import { setAdmin } from "../Slice/AdminSlice";
+import AdminUserServices from "../services/AdminUserServices";
 
 const Context = createContext();
 
 export const States = ({ children }) => {
   const user = useSelector(getUser);
-  const quote = signUpQuotes[Math.floor(Math.random() * signUpQuotes.length)];
   const dispatch = useDispatch();
   //! Variable Declarations
   const [signUpFormUser, setSignUpFormUser] = useState({
@@ -31,10 +31,17 @@ export const States = ({ children }) => {
     email: "",
     password: "",
   });
-
+  const [allUsers, setAllUsers] = useState([]);
   const audioRef = useRef(null);
   const [isPlay, setIsPlay] = useState(false);
   const [isLoop, setIsLoop] = useState(false);
+
+  const [pagination, setPagination] = useState({
+    pageSize: 0,
+    offset: 5,
+    field: "uid",
+    sortDirection: "asc",
+  });
 
   const [currentSong, setCurrentSong] = useState(null);
 
@@ -44,6 +51,7 @@ export const States = ({ children }) => {
 
   const navigate = useNavigate();
 
+  var quote;
   //! Variable Declarations End ---------------------------------------------------------------------------------------------------------------------------------
 
   //! Functions Declarations
@@ -93,7 +101,7 @@ export const States = ({ children }) => {
     if (!signInFormUser.email.trim()) {
       error.emailError = "Please enter your email";
       isValid = false;
-    } 
+    }
     if (!signInFormUser.password.trim()) {
       error.passwordError = "Please enter your password";
       isValid = false;
@@ -108,7 +116,7 @@ export const States = ({ children }) => {
     if (response === "Invalid email") {
       error.emailError = "Invalid email";
       isValid = false;
-    } 
+    }
     if (response === "Invalid password") {
       error.passwordError = "Invalid password";
       isValid = false;
@@ -127,9 +135,9 @@ export const States = ({ children }) => {
   const handleSignUp = async (e) => {
     e.preventDefault();
     if (ValidateSignUpForm()) {
-        const response = await UserServices.signUpUser(signUpFormUser);
-        dispatch(setUser(response.data));
-        localStorage.setItem("user", response.data.uid);
+      const response = await UserServices.signUpUser(signUpFormUser);
+      dispatch(setUser(response.data));
+      localStorage.setItem("user", response.data.uid);
     }
   };
   const handleSignIn = async (e) => {
@@ -146,10 +154,13 @@ export const States = ({ children }) => {
             username: "Paranthaman L",
           })
         );
-        localStorage.setItem("admin", {
-          aid: "paranthaman",
-          username: "Paranthaman L",
-        });
+        localStorage.setItem(
+          "admin",
+          JSON.stringify({
+            aid: "paranthaman",
+            username: "Paranthaman L",
+          })
+        );
         return;
       }
       const response = (
@@ -172,29 +183,29 @@ export const States = ({ children }) => {
     e.preventDefault();
     setCurrentSong(null);
     dispatch(logout());
+    dispatch(setAdmin(null));
     setSignInFormUser({
       username: "",
       password: "",
     });
     localStorage.removeItem("user");
     localStorage.removeItem("admin");
-    dispatch(setAdmin(null));
     navigate("/home");
   };
 
   const handleProfileUpload = async (file) => {
     setIsLoading(true);
-    // await Storage.put(file.name, file)
-    //   .then(async (response) => {
-    //     await UserServices.updateProfile(user?.uid, `${response.key}`).then(
-    //       (response1) => {
-    //         dispatch(setUser(response1.data));
-    //       }
-    //     );
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+    await Storage.put(file.name, file)
+      .then(async (response) => {
+        await UserServices.updateProfile(user?.uid, `${response.key}`).then(
+          (response1) => {
+            dispatch(setUser(response1.data));
+          }
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     setTimeout(() => {
       setIsLoading(false);
       setUpdatePath(1);
@@ -223,11 +234,12 @@ export const States = ({ children }) => {
         const response = await UserServices.getUser(userId);
         dispatch(setUser(response.data));
       } else if (localStorage.getItem("admin")) {
-        dispatch(setAdmin(localStorage.getItem("admin")));
+        dispatch(setAdmin(JSON.parse(localStorage.getItem("admin"))));
       }
       setIsLoading(false);
     };
     getUser();
+    quote = signUpQuotes[Math.floor(Math.random() * signUpQuotes.length)];
   }, []);
 
   useEffect(() => {
@@ -236,6 +248,15 @@ export const States = ({ children }) => {
       setIsPlay(true);
     }
   }, [currentSong]);
+
+  useEffect(() => {
+    const getPagination = async () => {
+      const response = await UserServices.userPagination(pagination);
+      console.log(response);
+      setAllUsers(response.data);
+    };
+    getPagination();
+  }, [pagination]);
 
   //! UseEffects Declarations End ---------------------------------------------------------------------------------------------------------------------------------
   return (
@@ -267,6 +288,10 @@ export const States = ({ children }) => {
         quote,
         signUpError,
         signInError,
+        allUsers,
+        setAllUsers,
+        pagination,
+        setPagination,
       }}
     >
       {children}

@@ -13,7 +13,7 @@ class UserServices {
     });
   }
   updateProfile(uid, profile) {
-    return axios.put(`/users/updateprofile`, {
+    return axios.get(`/users/updateprofile`, {
       params: { uid: uid, profile: profile },
     });
   }
@@ -21,7 +21,6 @@ class UserServices {
     return axios.get(`/users/getuser`, { params: { uid: uid } });
   }
   addLikedSong(uid, sid) {
-    console.log(uid, sid);
     return axios.get(`/users/addlikedsong`, {
       params: { uid: uid, sid: sid },
     });
