@@ -1,22 +1,14 @@
-import React, { useEffect } from "react";
-import { useAdminStates } from "../../context/useAdminStates";
-import AdminUserServices from "../../services/AdminUserServices";
-import { useStates } from "../../context/useStates";
-import UsersTable from "../../components/AdminPageComponents/UsersTable";
+import React from "react";
+import SortOption from "../../components/AdminPageComponents/SortOption";
+import UserList from "../../components/AdminPageComponents/UserList";
+import PagingOption from "../../components/AdminPageComponents/PagingOption";
 
 const Users = () => {
-  const { setAllUsers } = useStates();
-  useEffect(() => {
-    const getAllUsers = async () => {
-      const response = await AdminUserServices.getAllUsers();
-      setAllUsers(response.data);
-    };
-    getAllUsers();
-  }, []);
-
   return (
-    <div className="pt-24 bg-[#282828]">
-      <UsersTable />
+    <div className="mt-16 bg-[#f1f3fa] text-black">
+      <SortOption />
+      <UserList />
+      <PagingOption />
     </div>
   );
 };

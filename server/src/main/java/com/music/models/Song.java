@@ -29,9 +29,7 @@ public class Song {
 
     private boolean ispremium;
 
-    private String movie;
-    private String movieimg;
-    private String music;
+    // @ManyToOne
     private String lyricist;
     private List<String> singers;
 

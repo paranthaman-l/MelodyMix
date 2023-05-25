@@ -1,9 +1,10 @@
 import { axios } from "../api/axios";
 
 class UserServices {
-  getAllUsers() {
-    return axios.get(`/users/all`);
+  getUsersCount() {
+    return axios.get(`/users/getcount`);
   }
+
   signUpUser(user) {
     return axios.post(`/users/signup`, user);
   }

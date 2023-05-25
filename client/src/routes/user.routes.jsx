@@ -5,6 +5,7 @@ import { Home, Library, PlayerPage } from "../pages"
 import Upgrade from "../pages/users/Upgrade"
 import Channel from "../pages/users/Channel"
 import LikedSongs from "../pages/users/LikedSongs"
+import Movie from "../components/Movie"
 
 const UserRoutes = () => {
   return (
@@ -19,6 +20,7 @@ const UserRoutes = () => {
             <Route path="/upgrade" element={<Upgrade />} />
             <Route path="/player" element={<PlayerPage />} />
             <Route path="/channel/:uid" element={<Channel />} />
+            <Route path="/movie/:movie" element={<Movie />} />
             <Route path="/likedsongs" element={<LikedSongs />} />
           </Routes>
           <Player />

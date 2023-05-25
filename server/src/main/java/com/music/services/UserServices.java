@@ -1,4 +1,5 @@
 package com.music.services;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -106,10 +107,9 @@ public class UserServices {
             likedSongs.add(sid);
             user.setLikedsongs(likedSongs);
         } else {
-            if(user.getLikedsongs().add(sid)){
+            if (user.getLikedsongs().add(sid)) {
                 user.getLikedsongs().add(sid);
-            }
-            else{
+            } else {
                 deleteLikedSong(uid, sid);
             }
         }
@@ -157,13 +157,12 @@ public class UserServices {
     }
 
     public List<User> getUsersUsingPagination(int pageSize, int offset, String field, String sortDirection) {
-        Pageable pageable;
-        if(sortDirection.equals("asc"))
-            pageable = PageRequest.of(pageSize, offset,Sort.by(Direction.ASC, field));
-        else
-            pageable = PageRequest.of(pageSize, offset,Sort.by(Direction.DESC, field));
-
+        Pageable pageable = PageRequest.of(offset, pageSize, Sort.by(Direction.fromString(sortDirection), field));
         return userRepo.findAll(pageable).getContent();
+    }
+
+    public long getUserCount() {
+        return userRepo.count();
     }
 
 }

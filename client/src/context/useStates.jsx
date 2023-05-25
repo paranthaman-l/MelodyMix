@@ -35,13 +35,15 @@ export const States = ({ children }) => {
   const audioRef = useRef(null);
   const [isPlay, setIsPlay] = useState(false);
   const [isLoop, setIsLoop] = useState(false);
-
   const [pagination, setPagination] = useState({
-    pageSize: 0,
-    offset: 5,
+    pageSize: 5,
+    offset: 0,
     field: "uid",
-    sortDirection: "asc",
+    sortDirection: "ASC",
   });
+  const [totalPages, setTotalPages] = useState(
+    allUsers.length / pagination.pageSize
+  );
 
   const [currentSong, setCurrentSong] = useState(null);
 
@@ -251,9 +253,14 @@ export const States = ({ children }) => {
 
   useEffect(() => {
     const getPagination = async () => {
-      const response = await UserServices.userPagination(pagination);
-      console.log(response);
-      setAllUsers(response.data);
+      setIsLoading(true);
+      setTimeout(async () => {
+        const response = await UserServices.userPagination(pagination);
+        setAllUsers(response.data);
+        const countResponse = await UserServices.getUsersCount();
+        setTotalPages(Math.ceil(countResponse.data / pagination.pageSize));
+        setIsLoading(false);
+      }, 1500);
     };
     getPagination();
   }, [pagination]);
@@ -292,6 +299,8 @@ export const States = ({ children }) => {
         setAllUsers,
         pagination,
         setPagination,
+        totalPages,
+        setTotalPages,
       }}
     >
       {children}

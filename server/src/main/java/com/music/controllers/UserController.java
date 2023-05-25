@@ -36,6 +36,11 @@ public class UserController {
         return userServices.getAllUsers();
     }
 
+    @GetMapping("/getcount")
+    public long getUserCount() {
+        return userServices.getUserCount();
+    }
+
     @GetMapping("/login")
     public String loginUser(@RequestParam String email, @RequestParam String password) {
         return userServices.loginUser(email, password);
