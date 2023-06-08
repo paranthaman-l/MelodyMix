@@ -1,23 +1,56 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BiPlay } from "react-icons/bi";
-import { BsShuffle } from "react-icons/bs";
 import { MdOutlineLibraryAdd } from "react-icons/md";
 import { RxDotsVertical } from "react-icons/rx";
-
+import { useParams } from "react-router-dom";
+import UserServices from "../services/UserServices";
+import SingleComponent from "./SingleComponent";
 const Movie = () => {
+  const { movie } = useParams();
+  const [movieSongs, setMovieSongs] = useState([]);
+  const [movieData,setMovieData] = useState();
+  useEffect(() => {
+    const getMovieData = async () => {
+      await UserServices.getMovie(movie)
+        .then((response) => {
+          setMovieSongs(response.data);
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+    getMovieData();
+
+    const getMovie= async()=>{
+      await UserServices.getMovieById(movie).then((response) => {
+        setMovieData(response.data);
+        console.log(response);
+      }).catch(error => {
+        console.log(error);
+      });
+    }
+    getMovie();
+  }, [movie]);
+
   return (
     <div className="mx-20 pt-32 max-lg:mx-10 flex flex-col text-white ">
       <div className="flex items-center">
         <img
           className="w-64 h-64  max-lg:w-2/6 max-lg:h-2/6 max-md:w-3/6 max-md:h-3/6 rounded-md"
-          src="https://www.gstatic.com/youtube/media/ytm/images/pbg/liked-music-@576.png"
+          src={`https://music-data-bucket.s3.ap-south-1.amazonaws.com/public/${movieData?.movieimg}`}
           alt=""
         />
         <div className="flex flex-col ml-14">
-          <p className="font-bold text-4xl pt-3 pb-1 w-full">Your Likes</p>
-          <p className="text-[#b4b4b4] text-base mt-3">Single • </p>
+          <p className="font-bold text-4xl pt-3 pb-1 w-full">
+            {movieData?.movie}
+          </p>
+          <p className="text-[#b4b4b4] text-base mt-3">
+            Single •{movieData?.music}
+          </p>
+
           <p className="text-[#b4b4b4] text-base mb-4">
-            {/* {user?.likedsongs?.length} song */}
+            {movieSongs?.length} song
           </p>
           <div className="flex items-center max-md:hidden">
             <button className="hover:bg-opacity-90 px-2  text-base font-roboto bg-white rounded-2xl text-black font-semibold flex justify-center items-center focus:bg-black focus:text-white focus:border-white border-2 outline-none">
@@ -46,6 +79,16 @@ const Movie = () => {
         <span className="p-2 cursor-pointer mx-2 rounded-full hover:bg-slate-700">
           <RxDotsVertical className=" text-xl " />
         </span>
+      </div>
+
+      <div className="text-white my-16">
+        <ul className="flex flex-col mx-24 max-md:w-full max-md:mx-4">
+          {movieSongs.map((song, i) => {
+            return (
+              <SingleComponent song={song} i={i}/>
+            );
+          })}
+        </ul>
       </div>
     </div>
   );

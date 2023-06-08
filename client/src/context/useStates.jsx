@@ -8,9 +8,10 @@ import { useNavigate } from "react-router-dom";
 import { getUser, logout, setUser } from "../Slice/UserSlice";
 import UserServices from "../services/UserServices";
 import { Storage } from "aws-amplify";
-import { signUpQuotes } from "../constants";
+import { signUpQuotes, songs } from "../constants";
 import { setAdmin } from "../Slice/AdminSlice";
 import AdminUserServices from "../services/AdminUserServices";
+import toast from 'react-hot-toast';
 
 const Context = createContext();
 
@@ -35,6 +36,7 @@ export const States = ({ children }) => {
   const audioRef = useRef(null);
   const [isPlay, setIsPlay] = useState(false);
   const [isLoop, setIsLoop] = useState(false);
+  const [isShuffle, setIsShuffle] = useState(false);
   const [pagination, setPagination] = useState({
     pageSize: 5,
     offset: 0,
@@ -45,12 +47,13 @@ export const States = ({ children }) => {
     allUsers.length / pagination.pageSize
   );
 
+  const [currentSongs, setCurrentSongs] = useState([]);
   const [currentSong, setCurrentSong] = useState(null);
 
   const [loading, setIsLoading] = useState(false);
 
   const [updatePath, setUpdatePath] = useState(1);
-
+  const [search, setSearch] = useState("");
   const navigate = useNavigate();
 
   var quote;
@@ -137,9 +140,15 @@ export const States = ({ children }) => {
   const handleSignUp = async (e) => {
     e.preventDefault();
     if (ValidateSignUpForm()) {
-      const response = await UserServices.signUpUser(signUpFormUser);
-      dispatch(setUser(response.data));
-      localStorage.setItem("user", response.data.uid);
+      await UserServices.signUpUser(signUpFormUser)
+        .then((response) => {
+          dispatch(setUser(response.data));
+          toast(`Welcome ${response?.data?.username}`)
+          localStorage.setItem("user", response.data.uid);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   };
   const handleSignIn = async (e) => {
@@ -172,9 +181,17 @@ export const States = ({ children }) => {
         )
       ).data;
       if (validateEmailAndPassword(response)) {
-        const responseData = await UserServices.getUser(response);
-        dispatch(setUser(responseData.data));
-        localStorage.setItem("user", responseData.data.uid);
+        await UserServices.getUser(response)
+          .then((response) => {
+            dispatch(setUser(response.data));
+            toast.success(`Welcome ${response?.data?.username}`,{
+              duration: 4000,
+              position: 'top-center',})
+            localStorage.setItem("user", response.data.uid);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       } else {
         console.log(response);
       }
@@ -220,11 +237,50 @@ export const States = ({ children }) => {
 
   const addLikedSong = async (sid) => {
     if (user?.uid) {
-      const response = (await UserServices.addLikedSong(user?.uid, sid)).data;
-      dispatch(setUser(response));
+      await UserServices.addLikedSong(user?.uid, sid)
+        .then((response) => {
+          dispatch(setUser(response.data));
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     } else {
     }
   };
+
+  const nextSong = () => {
+    const index = currentSongs.findIndex((x) => x.sid === currentSong.sid);
+    if (isShuffle) {
+      setCurrentSong(
+        currentSongs[Math.floor(Math.random() * currentSongs.length)]
+      );
+    } else if (index === currentSongs.length - 1) {
+      setCurrentSong(currentSongs[0]);
+    } else {
+      setCurrentSong(currentSongs[index + 1]);
+    }
+  };
+  const prevSong = () => {
+    const index = currentSongs.findIndex((x) => x.sid === currentSong.sid);
+    if (isShuffle) {
+      setCurrentSong(
+        currentSongs[Math.floor(Math.random() * currentSongs.length)]
+      );
+    } else if (index === 0) {
+      setCurrentSong(currentSongs[currentSongs.length - 1]);
+    } else {
+      setCurrentSong(currentSongs[index - 1]);
+    }
+  };
+
+  const shuffleArray=(array)=> {
+    const newArray = [...array];
+    for (let i = newArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+    }
+    return newArray;
+  }
   //! Functions Declarations End ---------------------------------------------------------------------------------------------------------------------------------
 
   //! UseEffects Declarations
@@ -233,8 +289,13 @@ export const States = ({ children }) => {
       setIsLoading(true);
       if (localStorage.getItem("user")) {
         const userId = localStorage.getItem("user");
-        const response = await UserServices.getUser(userId);
-        dispatch(setUser(response.data));
+        await UserServices.getUser(userId)
+          .then((response) => {
+            dispatch(setUser(response.data));
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       } else if (localStorage.getItem("admin")) {
         dispatch(setAdmin(JSON.parse(localStorage.getItem("admin"))));
       }
@@ -242,6 +303,16 @@ export const States = ({ children }) => {
     };
     getUser();
     quote = signUpQuotes[Math.floor(Math.random() * signUpQuotes.length)];
+    const getAllSongs = async () => {
+      await UserServices.getAllSongs()
+        .then((response) => {
+          setCurrentSongs(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+    getAllSongs();
   }, []);
 
   useEffect(() => {
@@ -255,10 +326,20 @@ export const States = ({ children }) => {
     const getPagination = async () => {
       setIsLoading(true);
       setTimeout(async () => {
-        const response = await UserServices.userPagination(pagination);
-        setAllUsers(response.data);
-        const countResponse = await UserServices.getUsersCount();
-        setTotalPages(Math.ceil(countResponse.data / pagination.pageSize));
+        await UserServices.userPagination(pagination)
+          .then((response) => {
+            setAllUsers(response.data);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+        await UserServices.getUsersCount()
+          .then((countResponse) => {
+            setTotalPages(Math.ceil(countResponse.data / pagination.pageSize));
+          })
+          .catch((error) => {
+            console.log(error);
+          });
         setIsLoading(false);
       }, 1500);
     };
@@ -301,6 +382,15 @@ export const States = ({ children }) => {
         setPagination,
         totalPages,
         setTotalPages,
+        isShuffle,
+        setIsShuffle,
+        prevSong,
+        currentSongs,
+        nextSong,
+        search,
+        setSearch,
+        shuffleArray,
+        setCurrentSongs
       }}
     >
       {children}

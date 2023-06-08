@@ -9,10 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @AllArgsConstructor
@@ -44,7 +41,9 @@ public class User {
     private List<PlayList> playlists;
 
     private Set<String> likedsongs;
+    private Set<String> supportering;
 
+    
     public String getUid() {
         return uid;
     }
@@ -147,6 +146,14 @@ public class User {
 
     public void setLikedsongs(Set<String> likedsongs) {
         this.likedsongs = likedsongs;
+    }
+
+    public Set<String> getSupportering() {
+        return supportering;
+    }
+
+    public void setSupportering(Set<String> supportering) {
+        this.supportering = supportering;
     }  
 
 

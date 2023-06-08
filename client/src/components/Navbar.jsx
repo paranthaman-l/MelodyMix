@@ -11,22 +11,27 @@ import Profile from "./Profile";
 import { useSelector } from "react-redux";
 import { getUser } from "../Slice/UserSlice";
 import { SignIn } from "../pages";
+import { AiOutlineCloudUpload } from "react-icons/ai";
+import { UploadStates } from "../context/songUploadContext";
+import UserServices from "../services/UserServices";
+import { getAdmin } from "../Slice/AdminSlice";
 const Navbar = () => {
-  const { handleNavigate } = useStates();
+  const { handleNavigate, search, setSearch, setCurrentSongPlaying } =
+    useStates();
+  const { setIsSongUpload } = UploadStates();
   const user = useSelector(getUser);
+  const admin = useSelector(getAdmin);
   const [isShowMenu, setIsShowMenu] = useState(false);
   const [isShowSearch, setIsShowSearch] = useState(false);
   const [isShowProfile, setIsShowProfile] = useState(false);
   const [isScroll, setIsScrolled] = useState(false);
   const [isShowSignIn, setIsShowSignIn] = useState(false);
   const [isNavActive, setIsNavActive] = useState("home");
-
-  const [search, setSearch] = useState("");
+  const [searchSongs, setSearchSongs] = useState([]);
   const menuRef = useRef(null);
   const searchRef = useRef(null);
   const profileRef = useRef(null);
   const signUpRef = useRef(null);
-
   useEffect(() => {
     document.body.style.overflow = isShowSignIn ? "hidden" : "auto";
   }, [isShowSignIn]);
@@ -60,8 +65,25 @@ const Navbar = () => {
   useEffect(() => {
     window.addEventListener("scroll", onScroll);
     document.addEventListener("mousedown", handleClickOutside);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  useEffect(() => {
+    const getBySearchValue = async () => {
+      await UserServices.getBySearchValue(search)
+        .then((response) => {
+          console.log(response);
+          setSearchSongs(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+    getBySearchValue();
+  }, [search]);
+
+  const handleSearchClick = () => {
+    setIsShowSearch(!isShowSearch);
+  };
   return (
     <div
       className={`navbar flex justify-between items-center w-full top-0 z-50 h-16 fixed px-3 duration-500 border-b 
@@ -74,9 +96,12 @@ const Navbar = () => {
       } `}
     >
       <div className="logo cursor-pointer">
-        <span onClick={()=>handleNavigate('/')} className="flex items-center justify-center text-2xl text-white font-bold">
+        <span
+          onClick={() => handleNavigate("/")}
+          className="flex items-center justify-center text-2xl text-white font-bold"
+        >
           <SiYoutubemusic className="text-green bg-white rounded-full mr-1 max-sm:text-3xl" />
-          <p className="tracking-tighter max-md:text-xl">Music</p>
+          <p className="tracking-tighter font- max-md:text-xl">Melody Mix</p>
         </span>
       </div>
       <div className="navList flex w-8/12 max-xl:justify-end" ref={searchRef}>
@@ -102,6 +127,49 @@ const Navbar = () => {
               >
                 <MdOutlineClear />
               </span>
+            )}
+            {search && (
+              <div className="absolute text-white mt-14 rounded-sm min-h-[50px] bg-half-black1 w-full">
+                <ul className="py-2 px-1 min-h-[100px]">
+                  {searchSongs.map((song) => {
+                    return (
+                      <li
+                        key={song.sid}
+                        className="flex hover:bg-half-black2 p-1 rounded-md"
+                      >
+                        <img
+                          className="w-16 h-16 rounded-md ml-2"
+                          src={
+                            `https://music-data-bucket.s3.ap-south-1.amazonaws.com/public/${song.thumnail}` ||
+                            ""
+                          }
+                          alt=""
+                        />
+                        <div className="flex flex-col ml-10">
+                          <p
+                            onClick={() => {
+                              setCurrentSongPlaying(song);
+                              setSearch("");
+                            }}
+                            className="font-roboto font-semibold  hover:underline text-lg cursor-pointer"
+                          >
+                            {" "}
+                            {song.title}
+                          </p>
+                          <p
+                            className="text-gray-300 font-roboto hover:underline cursor-pointer"
+                            onClick={() =>
+                              handleNavigate(`/movie/${song?.movie?.mid}`)
+                            }
+                          >
+                            {song?.movie?.movie}
+                          </p>
+                        </div>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
             )}
           </div>
         )}
@@ -133,7 +201,7 @@ const Navbar = () => {
           </ul>
           <span
             className="text-xl font-semibold cursor-pointer mx-5 mb-1 flex  items-center group"
-            onClick={() => setIsShowSearch(!isShowSearch)}
+            onClick={handleSearchClick}
           >
             <IoSearchOutline className="text-half-black mr-4 text-2xl duration-150 group-hover:text-white max-md:mr-0" />
             <p className="font-roboto  text-half-black tracking-wider py-2 duration-300 group-hover:text-white max-sm:hidden">
@@ -143,9 +211,17 @@ const Navbar = () => {
         </div>
       </div>
       <div className="profile flex justify-center items-center text-white">
-        <span className="mx-2 p-2 text-2xl rounded-full cursor-pointer hover:bg-half-black1  max-lg:mx-1 max-lg:text-lg">
-          <FaChromecast />
-        </span>
+          {(user || admin) &&
+            <span
+            onClick={() => {
+              setIsSongUpload(true);
+              handleNavigate(`mychannel/${user?.uid}`);
+            }}
+            className="mx-2 p-2 text-2xl rounded-full cursor-pointer hover:bg-half-black1  max-lg:mx-1 max-lg:text-lg"
+          >
+            <AiOutlineCloudUpload />
+          </span>
+          }
         <span
           ref={menuRef}
           className="mx-2 mr-5 text-xl cursor-pointer  max-lg:mx-1 max-lg:text-lg max-md:hidden"

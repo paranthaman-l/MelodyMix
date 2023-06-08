@@ -9,7 +9,7 @@ import {
   AiOutlineLike,
 } from "react-icons/ai";
 import { useEffect, useRef, useState } from "react";
-import { songOptions, songs } from "../../constants";
+import { songOptions } from "../../constants";
 import { useStates } from "../../context/useStates";
 import { useSelector } from "react-redux";
 import { getUser } from "../../Slice/UserSlice";
@@ -45,15 +45,16 @@ const SingleSongComponent = ({ song, i }) => {
     document.addEventListener("mousedown", handleClickOutside);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const { addLikedSong, currentSong } = useStates();
+  const { addLikedSong, currentSong,handleNavigate } = useStates();
   const user = useSelector(getUser);
   const [like, setLike] = useState(false);
   useEffect(() => {
-      const isLikeSong = user?.likedsongs?.find((sid) => sid == song?.id);
+       // eslint-disable-next-line
+      const isLikeSong = user?.likedsongs?.find((sid) => sid === song?.sid);
       if (isLikeSong) {
         setLike(true);
       } else setLike(false);
-  }, [currentSong, song?.id, user]);
+  }, [currentSong, song?.sid, user]);
   return (
     <li
       className="snap-start relative mt-3 flex items-center w-[410px] overflow-hidden  mb-2 mr-[14px] group"
@@ -65,7 +66,7 @@ const SingleSongComponent = ({ song, i }) => {
         </div>
         <img
           className="w-full h-full rounded-md min-w-fit"
-          src={song.img}
+        src={`https://music-data-bucket.s3.ap-south-1.amazonaws.com/public/${song.thumnail}`}
           alt=""
         />
       </div>
@@ -78,11 +79,11 @@ const SingleSongComponent = ({ song, i }) => {
         </p>
         <p className="text-[16px] text-half-black  overflow-hidden ">
           <span className="whitespace-nowrap overflow-hidden text-ellipsis w-24">
-            {song.music}
+            {song?.movie?.music}
           </span>
           <span className="">•</span>
-          <span className="hover:underline hover:cursor-pointer">
-            {song.movie}
+          <span onClick={()=>handleNavigate(`/movie/${song?.movie?.mid}`)} className="hover:underline hover:cursor-pointer">
+            {song?.movie?.movie}
           </span>
         </p>
       </div>
@@ -91,7 +92,7 @@ const SingleSongComponent = ({ song, i }) => {
           <AiOutlineDislike className="text-xl" />
         </span>
         <span
-          onClick={() => addLikedSong(song.id)}
+          onClick={() => addLikedSong(song.sid)}
           className="rounded-full flex justify-center items-center  cursor-pointer w-10 h-10 hover:bg-half-black1"
         >
           {like ? (
@@ -118,7 +119,7 @@ const SingleSongComponent = ({ song, i }) => {
               return (
                 <li
                   className="flex justify-start items-center py-2 hover:bg-half-black2 w-full cursor-pointer "
-                  key={songOptions.id}
+                  key={songOptions.sid}
                 >
                   <span className="text-half-black px-4 text-2xl">
                     {songOptions.icon}

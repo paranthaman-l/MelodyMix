@@ -8,7 +8,7 @@ const OntopOption = ({
   return (
     <div className="flex justify-between items-center text-white">
       <div className="flex flex-col">
-        <p className="text-[16px] text-half-black  font-roboto">
+        <p className="text-[16px] text-half-black  uppercase font-roboto">
           {description}
         </p>
         <p className="text-[34px] font-bold">{title}</p>

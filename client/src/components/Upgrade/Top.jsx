@@ -6,7 +6,7 @@ const Top = () => {
       <div className="upgrade_top flex flex-col justify-center items-center z-50">
         <span className="flex items-center justify-center text-5xl text-white font-bold">
           <SiYoutubemusic className="text-green bg-white rounded-full mr-1 max-sm:text-4xl max-sm:3xl" />
-          <p className="tracking-tighter max-md:text-4xl max-sm:3xl">Music</p>
+          <p className="tracking-tighter max-md:text-4xl max-sm:3xl">Melody Mix</p>
         </span>
         <p className="text-white font-thin font-roboto text-4xl w-full flex justify-center items-center my-10">
           <p class="text-center w-[550px]">
@@ -14,7 +14,7 @@ const Top = () => {
           </p>
         </p>
         <button className="bg-[#3ea6ff] px-4 py-2 text-white rounded-3xl hover:bg-opacity-90">
-          Get Music Premium
+          Get Melody Mix Premium
         </button>
         <p className="text-white font-thin font-roboto text-2xl w-full flex justify-center items-center my-5">
           <p class="text-center w-[550px]">

@@ -17,6 +17,7 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { useStates } from "../context/useStates";
 import { useSelector } from "react-redux";
 import { getUser } from "../Slice/UserSlice";
+import { UploadStates } from "../context/songUploadContext";
 const Profile = ({ profileRef }) => {
   const {
     handleSignOut,
@@ -24,7 +25,7 @@ const Profile = ({ profileRef }) => {
     loading,
     updatePath,
     setUpdatePath,
-    handleNavigate
+    handleNavigate,
   } = useStates();
   const user = useSelector(getUser);
   const [isUpdateProfile, setIsUpdateProfile] = useState(false);
@@ -32,7 +33,7 @@ const Profile = ({ profileRef }) => {
 
   const [selecedImg, setSelecedImg] = useState(null);
   const [img, setImg] = useState(null);
-
+  const {setIsSongUpload} = UploadStates();
   const [dragging, setDragging] = useState(false);
   const fileInputRef = useRef(null);
 
@@ -70,7 +71,7 @@ const Profile = ({ profileRef }) => {
     <>
       <div className="fled flex-col bg-black2 text-white w-[360px] max-sm:w-full  max-sm:right-0 absolute right-5 rounded-2xl mt-4 -z-0">
         <p className="text-[12px] tracking-wide flex justify-center items-center font-sans py-1">
-          This account managed by - Music.in
+          This account managed by - MelodyMix.in
         </p>
         <div className="flex flex-col w-[345px] max-sm:w-full bg-black1 m-auto  rounded-2xl p-4 ">
           <div className="flex  items-center">
@@ -103,11 +104,18 @@ const Profile = ({ profileRef }) => {
           </span>
         </div>
         <ul className="flex flex-col cursor-pointer mt-1 border-b-[2px] w-full border-half-black p-[2px] ">
-          <li onClick={()=>{handleNavigate(`/channel/${user?.uid}`);}} className="flex items-center w-full hover:bg-[#373737] p-[9px]">
+          <li
+            onClick={() => {
+              handleNavigate(`/mychannel/${user?.uid}`);
+            }}
+            className="flex items-center w-full hover:bg-[#373737] p-[9px]"
+          >
             <BiUser className="mx-7 text-2xl" />
             <p className="font-roboto ">Your Channel</p>
           </li>
-          <li className="flex items-center w-full hover:bg-[#373737] p-[9px]">
+          <li
+           onClick={()=>{handleNavigate(`/mychannel/${user?.uid}`);setIsSongUpload(true)}}
+          className="flex items-center w-full hover:bg-[#373737] p-[9px]">
             <BiCloudUpload className="mx-7 text-2xl" />
             <p className="font-roboto ">Upload Music</p>
           </li>
@@ -443,7 +451,6 @@ const Profile = ({ profileRef }) => {
               ""
             )}
           </div>
-          
         </div>
       )}
     </>

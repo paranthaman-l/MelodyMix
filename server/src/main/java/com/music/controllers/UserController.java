@@ -78,8 +78,8 @@ public class UserController {
     }
 
     @PostMapping("/addsong")
-    public User addSong(@RequestParam String uid, @RequestBody Song song) {
-        return userServices.addSong(uid, song);
+    public String addSong(@RequestParam String uid,@RequestParam String mid, @RequestBody Song song) {
+        return userServices.addSong(uid,mid, song);
     }
 
     @PutMapping("/updatesong")
@@ -95,6 +95,10 @@ public class UserController {
     @GetMapping("/addlikedsong")
     public User addLikedSong(@RequestParam String uid, @RequestParam String sid) {
         return userServices.addLikedSong(uid, sid);
+    }
+    @GetMapping("/addsupporters")
+    public User addSupporter(@RequestParam String uid, @RequestParam String suid) {
+        return userServices.addSupporter(uid, suid);
     }
 
     @DeleteMapping("/deletelikedsong")
@@ -116,4 +120,5 @@ public class UserController {
     public User addPlayList(@RequestParam String uid, @RequestParam String pid, @RequestParam String sid) {
         return userServices.addPlayListSong(uid, pid, sid);
     }
-}
+
+}  

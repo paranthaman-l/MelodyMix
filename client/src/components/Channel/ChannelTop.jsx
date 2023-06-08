@@ -11,7 +11,7 @@ const ChannelTop = () => {
   return (
     <>
     <Upload/>
-      <div className="flex justify-between px-16 items-center">
+      <div className="flex justify-between px-16 items-center mb-10">
         <div className="flex items-center">
           <img
             className="w-48 h-48 relative rounded-full object-cover"
@@ -52,12 +52,6 @@ const ChannelTop = () => {
           </button>
         </div>
       </div>
-      <button
-        onClick={()=>setIsSongUpload(true)}
-        className="bg-[#272727] font-roboto rounded-3xl font-semibold px-3 py-1"
-      >
-        Upload Song
-      </button>
     </>
   );
 };

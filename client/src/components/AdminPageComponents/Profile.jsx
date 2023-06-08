@@ -12,7 +12,7 @@ const Profile = () => {
   return (
     <div className="fled flex-col bg-black2 text-white w-[360px] max-sm:w-full  max-sm:right-0 absolute right-5 rounded-2xl mt-4 -z-0">
     <p className="text-[12px] tracking-wide flex justify-center items-center font-sans py-1">
-      This account managed by - Music.in
+      This account managed by - MelodyMix.in
     </p>
     <div className="flex flex-col w-[345px] max-sm:w-full bg-black1 m-auto  rounded-2xl p-4 ">
       <div className="flex  items-center">

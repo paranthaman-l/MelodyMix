@@ -1,5 +1,4 @@
 import { useSelector } from "react-redux";
-import { getUser } from "../../Slice/UserSlice";
 import { useStates } from "../../context/useStates";
 import { useEffect, useRef, useState } from "react";
 import { SiYoutubemusic } from "react-icons/si";
@@ -7,7 +6,7 @@ import { BiArrowBack, BiDotsVerticalRounded } from "react-icons/bi";
 import { MdOutlineClear } from "react-icons/md";
 import { IoSearchOutline } from "react-icons/io5";
 import { FaChromecast } from "react-icons/fa";
-import { adminNavLinks, homeMode, menuLinks, navLinks } from "../../constants";
+import { adminNavLinks, homeMode, menuLinks } from "../../constants";
 import List from "../List";
 import { SignIn } from "../../pages";
 import Profile from "../AdminPageComponents/Profile";
@@ -79,7 +78,7 @@ const Navbar = () => {
       <div className="logo cursor-pointer">
         <span className="flex items-center justify-center text-2xl text-white font-bold">
           <SiYoutubemusic className="text-green bg-white rounded-full mr-1 max-sm:text-3xl" />
-          <p className="tracking-tighter max-md:text-xl">Music</p>
+          <p className="tracking-tighter max-md:text-xl">Melody Mix</p>
         </span>
       </div>
       <div className="navList flex w-8/12 max-xl:justify-end" ref={searchRef}>

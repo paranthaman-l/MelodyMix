@@ -10,11 +10,12 @@ const Like = ({ style }) => {
   const user = useSelector(getUser);
   const [like, setLike] = useState(false);
   useEffect(() => {
-    const isLikeSong = user?.likedsongs?.find((sid) => sid ==currentSong.id);
+    // eslint-disable-next-line
+    const isLikeSong = user?.likedsongs?.find((sid) => sid == currentSong.sid);
     if (isLikeSong) {
       setLike(true);
     } else setLike(false);
-  }, [currentSong,user]);
+  }, [currentSong, user]);
 
   return (
     <div className={`flex   w-40  justify-center items-center ${style}`}>
@@ -22,7 +23,7 @@ const Like = ({ style }) => {
         <AiOutlineDislike className="text-xl" />
       </span>
       <span
-        onClick={() => addLikedSong(currentSong.id)}
+        onClick={() => addLikedSong(currentSong.sid)}
         className="rounded-full flex justify-center items-center  cursor-pointer w-10 h-10 hover:bg-half-black1"
       >
         {like ? (

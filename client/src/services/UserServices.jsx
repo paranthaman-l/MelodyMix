@@ -36,6 +36,60 @@ class UserServices {
       },
     });
   }
+
+  uploadMovie(movie) {
+    return axios.post(`/movie/add`, movie);
+  }
+  uploadSong(song, uid, mid) {
+    return axios.post(`/users/addsong`, song, {
+      params: { uid: uid, mid: mid },
+    });
+  }
+
+  getAllMovie() {
+    return axios.get("/movie/all");
+  }
+
+  addImage(sid, filename) {
+    axios.put(`songs/addimg/${sid}/${filename}`);
+  }
+  addSongUrl(sid, filename) {
+    axios.put(`songs/addsongurl/${sid}/${filename}`);
+  }
+
+  updateSong(sid, song) {
+    return axios.put(`songs/update`, song, { params: { sid: sid } });
+  }
+  addView(sid) {
+    return axios.put(`songs/addview/${sid}`);
+  }
+
+  deleteSong(sid) {
+    return axios.delete("songs/delete", { params: { sid: sid } });
+  }
+
+  getMovie(mid) {
+    return axios.get(`songs/bymovieid`, { params: { mid: mid } });
+  }
+
+  getAllSongs() {
+    return axios.get(`songs/all`);
+  }
+  getMovieById(mid) {
+    return axios.get(`movie/getbymid`, { params: { mid: mid } });
+  }
+
+  addSupporters(uid, suid) {
+    return axios.get("/users/addsupporters", {
+      params: { uid: uid, suid: suid },
+    });
+  }
+  getBySearchValue(title){
+    return axios.get('/songs/getbytitle',{params: { title: title}});
+  }
+  getTrending(){
+    return axios.get('/songs/gettrending');
+  }
 }
 // eslint-disable-next-line import/no-anonymous-default-export
 export default new UserServices();

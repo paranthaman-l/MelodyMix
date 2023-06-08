@@ -5,11 +5,10 @@ import { RiRepeat2Line } from "react-icons/ri";
 import { RxSpeakerLoud } from "react-icons/rx";
 import { useStates } from "../../context/useStates";
 const RightControl = () => {
-  const { audioRef,isLoop, setIsLoop } = useStates();
+  const { audioRef,isLoop,isShuffle, setIsShuffle, setIsLoop } = useStates();
   const [isMute, setIsMute] = useState(false);
   const [volume, setVolume] = useState(0);
 
-  const [isShuffle, setIsShuffle] = useState(false);
   const handleVolumeChange = (event) => {
     audioRef.current.volume = event.target.value;
     setVolume(event.target.value * 100);

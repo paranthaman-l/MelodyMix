@@ -34,6 +34,10 @@ public class MovieController {
         return movieServices.getAllMovies();
     }
 
+    @GetMapping("/getbymid")
+    public Movie getMovieByMid(@RequestParam String mid) {
+        return movieServices.getMovieByMid(mid);
+    }
     @PostMapping("/add")
     public String addMovie(@RequestBody Movie movie) {
         return movieServices.addMovie(movie);

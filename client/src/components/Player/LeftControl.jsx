@@ -8,7 +8,7 @@ import { useStates } from "../../context/useStates";
 import { VscDebugPause } from "react-icons/vsc";
 import { useEffect, useState } from "react";
 const LeftControl = () => {
-  const { audioRef, isPlay, setIsPlay } = useStates();
+  const { audioRef, isPlay, setIsPlay, prevSong, nextSong } = useStates();
   const [curTime, setCurTime] = useState("00:00");
   const [endTime, setEndTime] = useState("00:00");
   useEffect(() => {
@@ -55,7 +55,7 @@ const LeftControl = () => {
   return (
     <div className="flex items-center text-2xl w-3/12 max-md:w-32">
       <ul className="flex items-center w-8/12 max-md:w-full justify-evenly">
-        <li className="">
+        <li onClick={prevSong} className="cursor-pointer">
           <TbPlayerSkipBackFilled />
         </li>
         <li className="" onClick={() => setIsPlay(!isPlay)}>
@@ -71,7 +71,7 @@ const LeftControl = () => {
             />
           )}
         </li>
-        <li className="">
+        <li onClick={nextSong} className="cursor-pointer">
           <TbPlayerSkipForwardFilled />
         </li>
       </ul>

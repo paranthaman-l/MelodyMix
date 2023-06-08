@@ -33,4 +33,8 @@ public class MovieServices {
         return null;
     }
 
+    public Movie getMovieByMid(String mid) {
+        return movieRepo.findById(mid).get();
+    }
+
 }

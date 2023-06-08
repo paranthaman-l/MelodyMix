@@ -13,9 +13,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
+import com.music.models.Movie;
 import com.music.models.PlayList;
 import com.music.models.Song;
 import com.music.models.User;
+import com.music.repository.MovieRepo;
 import com.music.repository.PlayListRepo;
 import com.music.repository.SongRepo;
 import com.music.repository.UserRepo;
@@ -26,6 +28,8 @@ public class UserServices {
 
     @Autowired
     private UserRepo userRepo;
+    @Autowired
+    private MovieRepo movieRepo;
     @Autowired
     private SongRepo songRepo;
     @Autowired
@@ -75,12 +79,15 @@ public class UserServices {
         return "User Not Found";
     }
 
-    public User addSong(String uid, Song song) {
+    public String addSong(String uid, String mid, Song song) {
         User user = userRepo.findById(uid).get();
         UUID sid = UUID.randomUUID();
         song.setSid(sid.toString());
+        Movie movie = movieRepo.findById(mid).get();
+        song.setMovie(movie);
         user.getSongs().add(song);
-        return userRepo.save(user);
+        userRepo.save(user);
+        return sid.toString();
     }
 
     public String deleteSong(String uid, String sid) {
@@ -106,11 +113,20 @@ public class UserServices {
             Set<String> likedSongs = new HashSet<>();
             likedSongs.add(sid);
             user.setLikedsongs(likedSongs);
+            Song song = songRepo.findById(sid).get();
+            song.setLikes(song.getLikes() + 1);
+            songRepo.save(song);
         } else {
             if (user.getLikedsongs().add(sid)) {
                 user.getLikedsongs().add(sid);
+                Song song = songRepo.findById(sid).get();
+                song.setLikes(song.getLikes() + 1);
+                songRepo.save(song);
             } else {
                 deleteLikedSong(uid, sid);
+                Song song = songRepo.findById(sid).get();
+                song.setLikes(song.getLikes() - 1);
+                songRepo.save(song);
             }
         }
         return userRepo.save(user);
@@ -119,6 +135,12 @@ public class UserServices {
     public User deleteLikedSong(String uid, String sid) {
         User user = userRepo.findById(uid).get();
         user.getLikedsongs().remove(sid);
+        return userRepo.save(user);
+    }
+
+    public User deleteSupporter(String uid, String suid) {
+        User user = userRepo.findById(uid).get();
+        user.getSupportering().remove(suid);
         return userRepo.save(user);
     }
 
@@ -151,7 +173,6 @@ public class UserServices {
 
     public User updateProfile(String uid, String profile) {
         User user = userRepo.findById(uid).get();
-        System.out.println(uid + profile);
         user.getProfile().add(profile);
         return userRepo.save(user);
     }
@@ -163,6 +184,31 @@ public class UserServices {
 
     public long getUserCount() {
         return userRepo.count();
+    }
+
+    public User addSupporter(String uid, String suid) {
+        User user = userRepo.findById(uid).get();
+        if (user.getSupportering() == null) {
+            Set<String> supporters = new HashSet<>();
+            supporters.add(suid);
+            user.setSupportering(supporters);
+            User sUser = userRepo.findById(suid).get();
+            sUser.setSupporters(sUser.getSupporters() + 1);
+            userRepo.save(sUser);
+        } else {
+            if (user.getSupportering().add(suid)) {
+                user.getSupportering().add(suid);
+                User sUser = userRepo.findById(suid).get();
+                sUser.setSupporters(sUser.getSupporters() + 1);
+                userRepo.save(sUser);
+            } else {
+                deleteSupporter(uid, suid);
+                User sUser = userRepo.findById(suid).get();
+                sUser.setSupporters(sUser.getSupporters() - 1);
+                userRepo.save(sUser);
+            }
+        }
+        return userRepo.save(user);
     }
 
 }

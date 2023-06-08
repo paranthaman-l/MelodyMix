@@ -1,7 +1,11 @@
 package com.music.models;
 
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Movie {
@@ -12,9 +16,12 @@ public class Movie {
     private String music;
     private String year;
 
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
+    private List<Song> songs; 
+
     public Movie() {
         super();
-    }
+    } 
 
     public Movie(String mid, String movie, String movieimg, String music, String year) {
         this.mid = mid;

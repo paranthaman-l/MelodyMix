@@ -1,11 +1,35 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { getUser } from "../../Slice/UserSlice";
 import { BsShuffle } from "react-icons/bs";
 import { RxDotsVertical } from "react-icons/rx";
+import UserServices from "../../services/UserServices";
+import { useStates } from "../../context/useStates";
 
 const LikedSongTop = () => {
   const user = useSelector(getUser);
+  const { setCurrentSongs, setCurrentSong } = useStates();
+  const [songs, setSongs] = useState([]);
+  useEffect(() => {
+    getAllSongs();
+  }, []);
+  const getAllSongs = async () => {
+    await UserServices.getAllSongs()
+      .then((response) => {
+        setSongs(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  const handleSetSongs = () => {
+    const filterLikedSongs = songs.filter((song) =>
+      // eslint-disable-next-line
+      user?.likedsongs?.some((sid) => sid === song.sid)
+    );
+    setCurrentSongs(filterLikedSongs);
+    setCurrentSong(filterLikedSongs[Math.floor(Math.random() * filterLikedSongs.length)]);
+  };
   return (
     <div className="mx-20 max-lg:mx-10 flex flex-col text-white ">
       <div className="flex items-center">
@@ -24,7 +48,10 @@ const LikedSongTop = () => {
             Music you like in any Music app will show here.
           </p>
           <div className="flex items-center max-md:hidden">
-            <button className="px-2  text-base font-roboto py-1 bg-white rounded-2xl text-black font-semibold flex justify-center items-center focus:bg-black focus:text-white focus:border-white border-2 outline-none">
+            <button
+              onClick={() => handleSetSongs()}
+              className="px-2  text-base font-roboto py-1 bg-white rounded-2xl text-black font-semibold flex justify-center items-center focus:bg-black focus:text-white focus:border-white border-2 outline-none"
+            >
               <BsShuffle className="font-semibold mx-1" />
               Shuffle
             </button>
@@ -35,7 +62,7 @@ const LikedSongTop = () => {
         </div>
       </div>
       <div className="max-md:flex items-center hidden mt-5">
-        <button className="px-2  text-base font-roboto py-1 bg-white rounded-2xl text-black font-semibold flex justify-center items-center focus:bg-black focus:text-white focus:border-white border-2 outline-none">
+        <button onClick={() => handleSetSongs()} className="px-2  text-base font-roboto py-1 bg-white rounded-2xl text-black font-semibold flex justify-center items-center focus:bg-black focus:text-white focus:border-white border-2 outline-none">
           <BsShuffle className="font-semibold mx-1" />
           Shuffle
         </button>

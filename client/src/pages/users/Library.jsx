@@ -5,8 +5,9 @@ import { libraryContent } from "../../components";
 import { useSelector } from "react-redux";
 import { getUser } from "../../Slice/UserSlice";
 import { useStates } from "../../context/useStates";
+import { BsFillPinFill } from "react-icons/bs";
 const Library = () => {
-  const {handleNavigate} = useStates();
+  const { handleNavigate } = useStates();
   const [isLibraryActive, setIsLibraryActive] = useState(-1);
   const user = useSelector(getUser);
   return (
@@ -18,14 +19,18 @@ const Library = () => {
       {isLibraryActive === -1 ? (
         <div className="grid grid-flow-row gap-3 mt-24 px-20">
           {user?.likedsong?.length !== 0 && (
-            <div className="h-40 w-40 ">
+            <div className="h-40 w-40 flex flex-col">
               <img
-                onClick={()=>handleNavigate(`/likedsongs`)}
+                onClick={() => handleNavigate(`/likedsongs`)}
                 className="h-full w-full rounded-md cursor-pointer"
                 src="https://www.gstatic.com/youtube/media/ytm/images/pbg/liked-music-@576.png"
                 alt=""
               />
-            </div>  
+              <p className="font-semibold font-roboto mt-1 ml-2">Your Likes</p>
+              <p className="flex items-center ml-1 text-gray-400">
+                <BsFillPinFill /> Auto playlist
+              </p>
+            </div>
           )}
         </div>
       ) : (
