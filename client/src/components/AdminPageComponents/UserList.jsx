@@ -1,9 +1,12 @@
 import React from "react";
 import { useStates } from "../../context/useStates";
 import { BsThreeDotsVertical } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 
 const UserList = () => {
-  const { allUsers, loading } = useStates();
+  const { allUsers, loading, handleNavigate, pagination, setPagination } =
+    useStates();
+  const navigate = useNavigate();
   return (
     <div className="px-28 pb-20 w-full h-full max-lg:pb-28 relative min-h-[89vh]">
       {loading && (
@@ -30,20 +33,60 @@ const UserList = () => {
           </svg>
         </div>
       )}
-      <ul className="grid grid-flow-row grid-cols-3 max-lg:grid-cols-2 max-md:grid-cols-1 gap-5">
-        {allUsers?.map((user) => {
-          return (
-            <li
-              className="w-full bg-white flex flex-col items-center rounded-lg shadow-md max-md:w-full"
-              key={user?.uid}
-            >
-              <span className="w-full flex justify-end text-[#909faa] mt-3 ">
-                <BsThreeDotsVertical className="mr-4 text-xl cursor-pointer" />
-              </span>
-              <div className="flex flex-col justify-center w-full items-center py-3">
-                <span className="w-[90px] h-[90px] flex justify-center items-center rounded-full bg-[#e4e9fa]">
+      <table className="w-full font-poppins mt-10 text-lg">
+        <tr className="">
+          <th className="cursor-pointer">Profile</th>
+          <th
+            onClick={() =>
+              setPagination({
+                ...pagination,
+                sortDirection:
+                  pagination.sortDirection === "ASC" ? "DESC" : "ASC",
+                field: "username",
+              })
+            }
+            className="cursor-pointer   ml-10"
+          >
+            UserName
+          </th>
+          <th className="cursor-pointer"
+           onClick={() =>
+            setPagination({
+              ...pagination,
+              sortDirection:
+                pagination.sortDirection === "ASC" ? "DESC" : "ASC",
+              field: "email",
+            })
+          }
+          >email</th>
+          {/* <div className="cursor-pointer flex items-center justify-evenly"> */}
+          <th className="cursor-pointer  justify-start" onClick={() =>
+            setPagination({
+              ...pagination,
+              sortDirection:
+                pagination.sortDirection === "ASC" ? "DESC" : "ASC",
+              field: "supporters",
+            })
+          }>Subscribers</th>
+          <th onClick={() =>
+            setPagination({
+              ...pagination,
+              sortDirection:
+                pagination.sortDirection === "ASC" ? "DESC" : "ASC",
+              field: "songs.length",
+            })
+          } className=" ">
+            <span className="cursor-pointer flex justify-center">Songs</span>
+          </th>
+          {/* </div> */}
+        </tr>
+        <tbody className="">
+          {allUsers.map((user) => {
+            return (
+              <tr className="hover:bg-half-black1 group relative">
+                <td className="py-3 flex items-center justify-center cursor-pointer">
                   <img
-                    className="w-20 h-20 rounded-full top-0 left-0"
+                    className="w-14 h-14 rounded-lg"
                     src={
                       `https://music-data-bucket.s3.ap-south-1.amazonaws.com/public/${
                         user?.profile[user?.profile?.length - 1]
@@ -51,29 +94,29 @@ const UserList = () => {
                     }
                     alt=""
                   />
-                </span>
-                <p className="font-poppins font-semibold flex items-center">
-                  {user.username}
-                  {"  "}
-                  {user.ischannel && (
-                    <img
-                      className="h-5 w-5"
-                      src="https://www.pngall.com/wp-content/uploads/8/Verification-Blue-Tick-PNG.png"
-                      alt=""
-                    />
-                  )}
-                </p>
-                <p className="text-[#909faa] text-sm">{user.email}</p>
-              </div>
-              <div className="flex items-center">
-                <button className="bg-green px-5 py-1 rounded-xl text-sm mb-4">
-                  View Profile
-                </button>
-              </div>
-            </li>
-          );
-        })}
-      </ul>
+                </td>
+                <td className="ml-10  relative ">
+                  <p
+                    className="ml-10 font-roboto text-lg uppercase hover:underline cursor-pointer"
+                    onClick={() => handleNavigate(`/channel/${user.uid}`)}
+                  >
+                    {user.username}
+                  </p>
+                </td>
+                <td className="text-base  text-gray-300">{user.email}</td>
+                {/* <span className="flex justify-evenly items-center text-center"> */}
+                <td className="text-base text-center text-gray-400 ">
+                  <p className="">{user.supporters}</p>
+                </td>
+                <td className="text-base text-center text-gray-300">
+                  <p className="">{user?.songs?.length}</p>
+                </td>
+                {/* </span> */}
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
     </div>
   );
 };

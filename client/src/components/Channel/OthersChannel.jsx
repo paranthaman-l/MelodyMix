@@ -7,12 +7,14 @@ import { RxDotsVertical } from "react-icons/rx";
 import SingleComponent from "../SingleComponent";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser, setUser } from "../../Slice/UserSlice";
+import { useStates } from "../../context/useStates";
 
 const OthersChannel = () => {
   const { otheruid } = useParams();
   const [userData, setUserData] = useState();
   const [isSupport, setIsSupport] = useState(false);
   const user = useSelector(getUser);
+  const { setCurrentSongs, setCurrentSong } = useStates();
   const dispatch = useDispatch();
   const getChannelData = async () => {
     await UserServices.getUser(otheruid)
@@ -41,6 +43,12 @@ const OthersChannel = () => {
       dispatch(setUser(response.data));
     });
   };
+  const handleSetSongs = () => {
+    setCurrentSongs(userData.songs);
+    setCurrentSong(
+      userData.songs[Math.floor(Math.random() * userData.songs.length)]
+    );
+  };
   return (
     <div className="w-full mt-24 ml-28">
       <div className="flex">
@@ -64,7 +72,7 @@ const OthersChannel = () => {
             </p>
           </div>
           <div className="flex items-center max-md:hidden">
-            <button className="hover:bg-opacity-90 px-2 py-1  text-base font-roboto bg-white rounded-2xl text-black font-semibold flex justify-center items-center focus:bg-black focus:text-white focus:border-white border-2 outline-none">
+            <button onClick={handleSetSongs} className="hover:bg-opacity-90 px-2 py-1  text-base font-roboto bg-white rounded-2xl text-black font-semibold flex justify-center items-center focus:bg-black focus:text-white focus:border-white border-2 outline-none">
               <BiShuffle className="font-semibold text-xl mr-2" />
               Shuffle
             </button>

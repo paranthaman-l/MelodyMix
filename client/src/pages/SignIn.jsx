@@ -4,10 +4,10 @@ import SignUp from "./SignUp";
 import { useStates } from "../context/useStates";
 
 const SignIn = ({ signUpRef }) => {
-  const { handleChangeSignInFormData, handleSignIn, quote, signInError } =
+  const { handleChangeSignInFormData, handleSignIn,signInFormUser, quote, signInError } =
     useStates();
   const [isFlipped, setIsFlipped] = useState(false);
-  return (
+return (
     <div className="h-screen flex justify-center items-center absolute bg-[#040405] left-0 top-0 w-full bg-opacity-70 duration-500 transition-transform">
       <div
         ref={signUpRef}
@@ -31,6 +31,7 @@ const SignIn = ({ signUpRef }) => {
                   className="w-full"
                   type="text"
                   required="required"
+                  value={signInFormUser.email}
                 />
                 <span className="absolute">Email</span>
                 <i
@@ -38,9 +39,9 @@ const SignIn = ({ signUpRef }) => {
                     signInError?.emailError && "bg-pink-700"
                   }`}
                 ></i>
-                <p className="absolute -bottom-4 right-0 text-white text-xs">
+                {/* <p className="absolute -bottom-4 right-0 text-white text-xs">
                   {signInError?.emailError}
-                </p>
+                </p> */}
               </div>
               <div className="inputBox relative w-9/12 mx-auto">
                 <input
@@ -49,6 +50,7 @@ const SignIn = ({ signUpRef }) => {
                   className="w-full"
                   type="password"
                   required="required"
+                  value={signInFormUser.password}
                 />
                 <span className="absolute">Password</span>
                 <i
@@ -56,9 +58,9 @@ const SignIn = ({ signUpRef }) => {
                     signInError?.passwordError && "bg-pink-700"
                   }`}
                 ></i>
-                <p className="absolute -bottom-4 right-0 text-white text-xs">
+                {/* <p className="absolute -bottom-4 right-0 text-white text-xs">
                   {signInError?.passwordError}
-                </p>
+                </p> */}
               </div>
               <div className="flex justify-between mx-auto w-9/12 text-gray-300 mt-4">
                 <span>forget password? </span>

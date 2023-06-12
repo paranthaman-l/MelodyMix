@@ -8,6 +8,7 @@ import { useStates } from "../../context/useStates";
 import UserServices from "../../services/UserServices";
 import { getUser, setUser } from "../../Slice/UserSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-hot-toast";
 
 const EditSong = () => {
   const { songDetails, song, setIsSongUpdate, setSong, setSongDetails } =
@@ -17,7 +18,6 @@ const EditSong = () => {
   const { movieOption } = useStates();
   const audioRef = null;
   const handleChange = (e) => {
-    console.log(song);
     const { name, value } = e.target;
     setSong({
       ...song,
@@ -33,18 +33,19 @@ const EditSong = () => {
         [name]: value.split(",").length === 1 ? value : value.split(","),
       },
     });
-    console.log(song);
   };
   const handleUpdate = async () => {
     const response = await UserServices.updateSong(song?.sid, song);
-    console.log(response.data);
     const res = await UserServices.getUser(user?.uid);
     dispatch(setUser(res.data));
     setIsSongUpdate(false);
+    toast.success("Song Update Success",{
+      position:'bottom-left'
+    });
   };
   return (
     <>
-      <div className=" z-50 duration-700 absolute flex justify-center h-full items-center top-0 left-0 min-w-full min-h-screen bg-black bg-opacity-40">
+      <div className=" z-50 fixed duration-700 flex justify-center h-full items-center top-0 left-0 min-w-full min-h-screen bg-black bg-opacity-40">
         <div className="flex flex-col absolute bg-songUpload rounded-md mx-auto w-8/12 h-5/6 max-lg:w-full">
           <div className="flex justify-between w-full p-4 text-xl text-white h-fit font-semibold font-roboto border-b-[0.5px] border-[#3e3e3e] ">
             <p>{songDetails?.title?.split("-")[0] || "EditSong"}</p>
@@ -233,7 +234,7 @@ const EditSong = () => {
                       className="text-black  mb-3"
                       placeholder="Mood and Genre"
                       clearable
-                      values={song.mood.map((mood, i) => ({
+                      values={song.mood?.map((mood, i) => ({
                         id: i,
                         value: mood,
                       }))}

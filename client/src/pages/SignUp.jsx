@@ -25,7 +25,7 @@ const SignUp = ({ isFlipped, setIsFlipped }) => {
           />
           <span className="absolute">UserName</span>
           <i className={`absolute bg-green ${signUpError?.usernameError && "bg-pink-700"}`}></i>
-          <p className="absolute -bottom-4 right-0 text-white text-xs">{signUpError?.usernameError}</p>
+          {/* <p className="absolute -bottom-4 right-0 text-white text-xs">{signUpError?.usernameError}</p> */}
         </div>
         <div className="inputBox relative w-9/12 mx-auto">
           <input
@@ -38,7 +38,7 @@ const SignUp = ({ isFlipped, setIsFlipped }) => {
           />
           <span className="absolute">Email</span>
           <i className={`absolute bg-green ${signUpError?.emailError && "bg-pink-700"}`}></i>
-          <p className="absolute -bottom-4 right-0 text-white text-xs">{signUpError?.emailError}</p>
+          {/* <p className="absolute -bottom-4 right-0 text-white text-xs">{signUpError?.emailError}</p> */}
         </div>
         <div className="inputBox relative w-9/12 mx-auto">
           <input
@@ -51,7 +51,7 @@ const SignUp = ({ isFlipped, setIsFlipped }) => {
           />
           <span className="absolute">Password</span>
           <i className={`absolute bg-green ${signUpError?.passwordError && "bg-pink-700"}`}></i>
-          <p className="absolute -bottom-4 right-0 text-white text-xs">{signUpError?.passwordError}</p>
+          {/* <p className="absolute -bottom-4 right-0 text-white text-xs">{signUpError?.passwordError}</p> */}
         </div>
         <div className="inputBox relative w-9/12 mx-auto">
           <input
@@ -64,7 +64,7 @@ const SignUp = ({ isFlipped, setIsFlipped }) => {
           />
           <span className="absolute">ConfirmPassword</span>
           <i className={`absolute bg-green ${signUpError?.confirmPasswordError && "bg-pink-700"}`}></i>
-          <p className="absolute -bottom-4 right-0 text-white text-xs">{signUpError?.confirmPasswordError}</p>
+          {/* <p className="absolute -bottom-4 right-0 text-white text-xs">{signUpError?.confirmPasswordError}</p> */}
         </div>
         <div className="flex justify-end mx-auto w-9/12 text-gray-300 mt-4">
           <span

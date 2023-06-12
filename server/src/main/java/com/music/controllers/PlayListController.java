@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.music.models.PlayList;
+import com.music.models.Song;
 import com.music.services.PlayListServices;
 
 @RestController
@@ -26,5 +28,9 @@ public class PlayListController {
     @GetMapping("/all")
     public List<PlayList> getAllPlayLists() {
         return playListServices.getAllPlayLists();
+    }
+    @GetMapping("/getPlayList")
+    public PlayList getAllSongList(@RequestParam String pid) {
+        return playListServices.getPlayListSong(pid);
     }
 }

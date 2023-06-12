@@ -1,5 +1,6 @@
 package com.music.services;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -107,7 +108,7 @@ public class UserServices {
         return userRepo.save(user);
     }
 
-    public User addLikedSong(String uid, String sid) {
+    public String addLikedSong(String uid, String sid) {
         User user = userRepo.findById(uid).get();
         if (user.getLikedsongs() == null) {
             Set<String> likedSongs = new HashSet<>();
@@ -116,20 +117,23 @@ public class UserServices {
             Song song = songRepo.findById(sid).get();
             song.setLikes(song.getLikes() + 1);
             songRepo.save(song);
+            return song.getTitle() + " Song Added from Favorites";
         } else {
             if (user.getLikedsongs().add(sid)) {
                 user.getLikedsongs().add(sid);
                 Song song = songRepo.findById(sid).get();
                 song.setLikes(song.getLikes() + 1);
                 songRepo.save(song);
+                return song.getTitle() + " Song Added from Favorites";
+
             } else {
                 deleteLikedSong(uid, sid);
                 Song song = songRepo.findById(sid).get();
                 song.setLikes(song.getLikes() - 1);
                 songRepo.save(song);
+                return song.getTitle() + " Song Removed from Favorites";
             }
         }
-        return userRepo.save(user);
     }
 
     public User deleteLikedSong(String uid, String sid) {
@@ -146,7 +150,16 @@ public class UserServices {
 
     public User addPlaylist(String uid, PlayList playList) {
         User user = userRepo.findById(uid).get();
-        user.getPlaylists().add(playList);
+        String pUuid = UUID.randomUUID().toString();
+        playList.setPid(pUuid);
+        if (user.getPlaylists() == null) {
+            List<PlayList> playlist = new ArrayList<PlayList>();
+            // playListRepo.save(playList);
+            user.setPlaylists(playlist);
+        } else {
+            // playListRepo.save(playList);
+            user.getPlaylists().add(playList);
+        }
         return userRepo.save(user);
     }
 
@@ -162,7 +175,8 @@ public class UserServices {
         User user = userRepo.findById(uid).get();
         PlayList playlist = playListRepo.findById(pid).get();
         playListRepo.deleteById(pid);
-        playlist.getSongs().add(sid);
+        Song song = songRepo.findById(sid).get();
+        playlist.getSongs().add(song);
         user.getPlaylists().add(playlist);
         return userRepo.save(user);
     }
@@ -210,5 +224,6 @@ public class UserServices {
         }
         return userRepo.save(user);
     }
+
 
 }

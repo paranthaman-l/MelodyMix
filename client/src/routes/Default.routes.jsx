@@ -7,6 +7,7 @@ import Upgrade from "../pages/users/Upgrade";
 import OthersChannel from "../components/Channel/OthersChannel";
 import Movie from "../components/Movie";
 import LikedSongs from "../pages/users/LikedSongs";
+import { Toaster } from "react-hot-toast";
 
 const DefaultRoutes = () => {
   return (
@@ -14,6 +15,7 @@ const DefaultRoutes = () => {
       <BrowserRouter>
         <ContextContainer>
           <Navbar />
+          <Toaster />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/home" element={<Home />} />

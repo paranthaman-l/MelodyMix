@@ -1,6 +1,7 @@
 package com.music.controllers;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -93,7 +94,7 @@ public class UserController {
     }
 
     @GetMapping("/addlikedsong")
-    public User addLikedSong(@RequestParam String uid, @RequestParam String sid) {
+    public String addLikedSong(@RequestParam String uid, @RequestParam String sid) {
         return userServices.addLikedSong(uid, sid);
     }
     @GetMapping("/addsupporters")
@@ -120,5 +121,4 @@ public class UserController {
     public User addPlayList(@RequestParam String uid, @RequestParam String pid, @RequestParam String sid) {
         return userServices.addPlayListSong(uid, pid, sid);
     }
-
 }  

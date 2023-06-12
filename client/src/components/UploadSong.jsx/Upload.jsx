@@ -4,14 +4,12 @@ import { MdFileUpload, MdOutlineFeedback } from "react-icons/md";
 import { UploadStates } from "../../context/songUploadContext";
 import universalParse from "id3-parser/lib/universal";
 import UserServices from "../../services/UserServices";
-import { useDispatch, useSelector } from "react-redux";
-import { getUser, setUser } from "../../Slice/UserSlice";
+import { useSelector } from "react-redux";
+import { getUser } from "../../Slice/UserSlice";
 import Select from "react-dropdown-select";
 import { moodAndGenre } from "../../constants";
-import { useStates } from "../../context/useStates";
 const Upload = () => {
   const user = useSelector(getUser);
-  const dispatch = useDispatch();
   const {
     songSrc,
     setSongSrc,
@@ -24,12 +22,13 @@ const Upload = () => {
     song,
     setSong,
     movieOptions,
+    setLoading,
     handleUploadSongImage,
     handleUploadSong,
     sid,
     setSid,
+    loading
   } = UploadStates();
-  const {setIsLoading,loading} = useStates();
     const fileRef = useRef(null);
   const audioRef = useRef(null);
   const [file, setFile] = useState(null);
@@ -70,6 +69,7 @@ const Upload = () => {
         audioRef?.current?.duration % 60
       )}`,
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [file?.name, songDetails]);
 
   const handleChange = (e) => {
@@ -116,19 +116,15 @@ const Upload = () => {
   };
 
   const uploadSongAndImage = async () => {
+    setLoading(true);
     const uint8Array = new Uint8Array(songDetails?.image?.data);
     handleUploadSongImage(uint8Array);
     handleUploadSong(file);
-    const response = await UserServices.getUser(user?.uid);
-    dispatch(setUser(response.data));
-    setTimeout(()=>{
-      setIsSongUpload(false);
-    },3000)
   };
   return (
     <>
       {isSongUpload && (
-        <div className="z-50 duration-700 absolute flex justify-center h-full items-center top-0 left-0 min-w-full min-h-screen bg-black bg-opacity-40">
+        <div className="z-50 duration-700 fixed flex justify-center h-full items-center top-0 left-0 min-w-full min-h-screen bg-black bg-opacity-40">
           <div className="flex flex-col bg-songUpload rounded-md mx-auto w-8/12 h-5/6 max-lg:w-full">
             <div className="flex justify-between w-full p-4 text-xl text-white h-fit font-semibold font-roboto border-b-[0.5px] border-[#3e3e3e] ">
               <p>
@@ -377,7 +373,7 @@ const Upload = () => {
                           onChange={(values) => {
                             setSong({
                               ...song,
-                              mood: values.map((mood) => mood.value),
+                              mood: values?.map((mood) => mood.value),
                             });
                             console.log(values);
                           }}
@@ -399,7 +395,7 @@ const Upload = () => {
                             {loading && (
                           <div className="flex justify-center mx-2 items-center top-0 left-0 absolute w-full h-full bg-opacity-40 ">
                             <svg
-                              class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                              class="animate-spin -ml-1 mr-3 h-10 w-10 text-green"
                               xmlns="http://www.w3.org/2000/svg"
                               fill="none"
                               viewBox="0 0 24 24"

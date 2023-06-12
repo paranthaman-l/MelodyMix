@@ -8,7 +8,6 @@ import UserRoutes from "./routes/user.routes";
 import AdminRoutes from "./routes/admin.routes";
 import { getAdmin } from "./Slice/AdminSlice";
 import DefaultRoutes from "./routes/Default.routes";
-
 function App() {
   const admin = useSelector(getAdmin);
   const user = useSelector(getUser);
@@ -30,9 +29,9 @@ function App() {
     });
   }, []);
   return (
-    <div className="scrollbar overflow-hidden min-h-screen bg-black">
+    <div className="scrollbar overflow-hidden min-h-screen bg-black text-white">
       {user ? <UserRoutes /> : admin ? <AdminRoutes /> : <DefaultRoutes />}
-    </div>
+        </div>
   );
 }
 

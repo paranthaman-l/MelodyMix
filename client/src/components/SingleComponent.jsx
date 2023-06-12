@@ -4,6 +4,7 @@ import { getUser } from "../Slice/UserSlice";
 import { useSelector } from "react-redux";
 import { BsFillPlayFill } from "react-icons/bs";
 import { AiFillLike, AiOutlineDislike, AiOutlineLike } from "react-icons/ai";
+import { toast } from "react-hot-toast";
 
 const SingleComponent = ({ song, i }) => {
   const { setCurrentSongPlaying } = useStates();
@@ -16,7 +17,11 @@ const SingleComponent = ({ song, i }) => {
     const isLikeSong = user?.likedsongs?.find((sid) => sid === song?.sid);
     if (isLikeSong) {
       setLike(true);
-    } else setLike(false);
+      // toast.success("Song Added to the Favorites");
+    } else {
+      setLike(false);
+      // toast.error("Song Removed from the Favorites")
+    }
   }, [currentSong, song?.sid, user]);
   return (
     <li

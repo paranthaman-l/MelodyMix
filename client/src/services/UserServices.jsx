@@ -4,6 +4,9 @@ class UserServices {
   getUsersCount() {
     return axios.get(`/users/getcount`);
   }
+  getSongsCount() {
+    return axios.get(`/songs/getcount`);
+  }
 
   signUpUser(user) {
     return axios.post(`/users/signup`, user);
@@ -36,6 +39,16 @@ class UserServices {
       },
     });
   }
+  songPagination(pagination) {
+    return axios.get(`/songs/pagination`, {
+      params: {
+        pageSize: pagination.pageSize,
+        offset: pagination.offset,
+        field: pagination.field,
+        sortDirection: pagination.sortDirection,
+      },
+    });
+  }
 
   uploadMovie(movie) {
     return axios.post(`/movie/add`, movie);
@@ -54,7 +67,7 @@ class UserServices {
     axios.put(`songs/addimg/${sid}/${filename}`);
   }
   addSongUrl(sid, filename) {
-    axios.put(`songs/addsongurl/${sid}/${filename}`);
+    return axios.put(`songs/addsongurl/${sid}/${filename}`);
   }
 
   updateSong(sid, song) {
@@ -84,11 +97,24 @@ class UserServices {
       params: { uid: uid, suid: suid },
     });
   }
-  getBySearchValue(title){
-    return axios.get('/songs/getbytitle',{params: { title: title}});
+  getBySearchValue(title) {
+    return axios.get("/songs/getbytitle", { params: { title: title } });
   }
-  getTrending(){
-    return axios.get('/songs/gettrending');
+  getTrending() {
+    return axios.get("/songs/gettrending");
+  }
+
+  addPlayList(uid, playlist) {
+    return axios.post(`/users/addplaylist`, playlist, { params: { uid: uid } });
+  }
+  getLikedSongs(uid) {
+    return axios.get(`/songs/getlikedsongs`, { params: { uid: uid } });
+  }
+  getSongById(sid) {
+    return axios.get("/songs/getById", { params: { sid: sid } });
+  }
+  getPlayList(pid){
+    return axios.get("/playlists/getPlayList", { params: { pid: pid } });
   }
 }
 // eslint-disable-next-line import/no-anonymous-default-export

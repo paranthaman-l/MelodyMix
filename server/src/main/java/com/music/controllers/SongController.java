@@ -1,6 +1,7 @@
 package com.music.controllers;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.music.models.Song;
+import com.music.models.User;
 import com.music.services.SongServices;
 
 @RestController
@@ -66,8 +68,8 @@ public class SongController {
     }
 
     @PutMapping("/addsongurl/{sid}/{filename}")
-    public void addSongUrl(@PathVariable String sid, @PathVariable String filename) {
-        songServices.addSongUrl(sid, filename);
+    public Song addSongUrl(@PathVariable String sid, @PathVariable String filename) {
+        return songServices.addSongUrl(sid, filename);
     }
 
     @PutMapping("/addview/{sid}")
@@ -84,4 +86,32 @@ public class SongController {
     public List<Song> getTrending(){
         return songServices.getTrending();
     }
+
+     @GetMapping("/getlikedsongs")
+    public List<Song> getLikedSongs(@RequestParam String uid){
+        return songServices.getLikedSongs(uid);
+    } 
+
+
+    @GetMapping("/bymoodandgenre")
+    public List<Song> getGenreList(@RequestParam String mood){
+        return songServices.getGenreListSongs(mood);
+    }
+    
+    
+    @GetMapping("/pagination")
+    public List<Song> getUsersUsingPagination(@RequestParam int pageSize, @RequestParam int offset,
+            @RequestParam String field, @RequestParam String sortDirection) {
+        return songServices.getUsersUsingPagination(pageSize, offset, field, sortDirection);
+    }
+
+    @GetMapping("/getById")
+    public Song getById(@RequestParam String sid){
+        return songServices.getById(sid);
+    }
+    @GetMapping("/getcount")
+    public Long getCount(){
+        return songServices.getCount();
+    }
+
 }

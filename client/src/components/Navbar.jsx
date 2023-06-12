@@ -71,7 +71,7 @@ const Navbar = () => {
     const getBySearchValue = async () => {
       await UserServices.getBySearchValue(search)
         .then((response) => {
-          console.log(response);
+          // console.log(response);
           setSearchSongs(response.data);
         })
         .catch((error) => {

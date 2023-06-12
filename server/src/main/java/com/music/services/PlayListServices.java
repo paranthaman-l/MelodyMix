@@ -17,4 +17,8 @@ public class PlayListServices {
     public List<PlayList> getAllPlayLists() {
         return playListRepo.findAll();
     }
+
+    public PlayList getPlayListSong(String pid) {
+        return playListRepo.findById(pid).get();
+    }
 }

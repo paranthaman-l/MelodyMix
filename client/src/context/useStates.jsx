@@ -10,7 +10,6 @@ import UserServices from "../services/UserServices";
 import { Storage } from "aws-amplify";
 import { signUpQuotes, songs } from "../constants";
 import { setAdmin } from "../Slice/AdminSlice";
-import AdminUserServices from "../services/AdminUserServices";
 import toast from 'react-hot-toast';
 
 const Context = createContext();
@@ -33,6 +32,7 @@ export const States = ({ children }) => {
     password: "",
   });
   const [allUsers, setAllUsers] = useState([]);
+  const [allSongs, setAllSongs] = useState([]);
   const audioRef = useRef(null);
   const [isPlay, setIsPlay] = useState(false);
   const [isLoop, setIsLoop] = useState(false);
@@ -43,8 +43,17 @@ export const States = ({ children }) => {
     field: "uid",
     sortDirection: "ASC",
   });
+  const [songPagination,setSongPagination] = useState({
+    pageSize: 5,
+    offset: 0,
+    field: "sid",
+    sortDirection: "ASC",
+  });
   const [totalPages, setTotalPages] = useState(
     allUsers.length / pagination.pageSize
+  );
+  const [totalSongPages, setTotalSongPages] = useState(
+    allSongs.length / songPagination.pageSize
   );
 
   const [currentSongs, setCurrentSongs] = useState([]);
@@ -68,6 +77,11 @@ export const States = ({ children }) => {
     setSignUpError({});
     let error = {};
     var isValid = true;
+    if(!signUpFormUser.email.trim() || !signUpFormUser.password.trim()|| !signUpFormUser.confirmPassword.trim()|| !signUpFormUser.username.trim()){
+      toast.error("Please enter All the Fields",{
+        style:{backgroundColor:"black",color:"white"}
+      })
+    }
     if (!signUpFormUser.email.trim()) {
       error.emailError = "Please enter your email";
       isValid = false;
@@ -82,6 +96,8 @@ export const States = ({ children }) => {
       isValid = false;
     } else if (signUpFormUser.password.length < 6) {
       error.passwordError = "Minimum password length must be 6";
+      if(!error.emailError && error.passwordError && !error.usernameError && !error.confirmPasswordError)
+      toast.error(error.passwordError);
       isValid = false;
     }
     if (!signUpFormUser.username.trim()) {
@@ -93,6 +109,8 @@ export const States = ({ children }) => {
       isValid = false;
     } else if (signUpFormUser.confirmPassword !== signUpFormUser.password) {
       error.confirmPasswordError = "Does Not Match Password";
+      if(!error.emailError && !error.passwordError && !error.usernameError && error.confirmPasswordError)
+        toast.error(error.confirmPasswordError);
       isValid = false;
     }
     setSignUpError(error);
@@ -112,6 +130,11 @@ export const States = ({ children }) => {
       isValid = false;
     }
     setSignInError(error);
+    if(!isValid) {
+      toast.error("Fill both a fields",{
+        style:{backgroundColor:"black",color:"white"}
+      })
+    }
     return isValid;
   };
   const validateEmailAndPassword = (response) => {
@@ -120,10 +143,16 @@ export const States = ({ children }) => {
     var isValid = true;
     if (response === "Invalid email") {
       error.emailError = "Invalid email";
+      toast.error(error.emailError,{
+        style:{backgroundColor:"black",color:"white"}
+      });
       isValid = false;
     }
     if (response === "Invalid password") {
       error.passwordError = "Invalid password";
+      toast.error(error.passwordError,{
+        style:{backgroundColor:"black",color:"white"}
+      });
       isValid = false;
     }
     setSignInError(error);
@@ -142,8 +171,19 @@ export const States = ({ children }) => {
     if (ValidateSignUpForm()) {
       await UserServices.signUpUser(signUpFormUser)
         .then((response) => {
+          if(response.data===""||response.data===null||response.data===undefined){
+            toast.error("Account with this email already exists!",{
+              style:{backgroundColor:"black",color:"white"}
+            });
+            let error = "Account with this email already exists!";
+            setSignUpError({...signInError,emailError:error})
+            return
+          }
           dispatch(setUser(response.data));
-          toast(`Welcome ${response?.data?.username}`)
+          toast.success(`Welcome ${response?.data?.username}`,{
+            position:'top-right',
+            style:{backgroundColor:"black",color:"white"}
+          })
           localStorage.setItem("user", response.data.uid);
         })
         .catch((err) => {
@@ -165,6 +205,10 @@ export const States = ({ children }) => {
             username: "Paranthaman L",
           })
         );
+        toast.success("Welcome Admin Paranthaman L!",{
+          position: 'top-right',
+          style:{backgroundColor:"black",color:"white"}
+        })
         localStorage.setItem(
           "admin",
           JSON.stringify({
@@ -185,8 +229,9 @@ export const States = ({ children }) => {
           .then((response) => {
             dispatch(setUser(response.data));
             toast.success(`Welcome ${response?.data?.username}`,{
-              duration: 4000,
-              position: 'top-center',})
+              style:{backgroundColor:"black",color:"white"},
+              duration: 3000,
+              position: 'top-right',})
             localStorage.setItem("user", response.data.uid);
           })
           .catch((error) => {
@@ -219,6 +264,7 @@ export const States = ({ children }) => {
         await UserServices.updateProfile(user?.uid, `${response.key}`).then(
           (response1) => {
             dispatch(setUser(response1.data));
+            setIsLoading(false);
           }
         );
       })
@@ -226,7 +272,6 @@ export const States = ({ children }) => {
         console.log(err);
       });
     setTimeout(() => {
-      setIsLoading(false);
       setUpdatePath(1);
     }, 2000);
   };
@@ -238,8 +283,20 @@ export const States = ({ children }) => {
   const addLikedSong = async (sid) => {
     if (user?.uid) {
       await UserServices.addLikedSong(user?.uid, sid)
-        .then((response) => {
-          dispatch(setUser(response.data));
+        .then(async(response) => {
+          if(response.data.includes('Song Added from Favorites'))
+            toast.success(response.data,{
+              position: 'bottom-left',
+              style:{backgroundColor:"black",color:"white"}
+            })
+            else
+            toast.error(response.data,{
+              position:'bottom-left',
+              style:{backgroundColor:"black",color:"white"}
+            })
+            await UserServices.getUser(user?.uid).then((response) => {
+              dispatch(setUser(response.data));
+            })
         })
         .catch((error) => {
           console.log(error);
@@ -341,10 +398,34 @@ export const States = ({ children }) => {
             console.log(error);
           });
         setIsLoading(false);
-      }, 1500);
+      }, 300);
     };
     getPagination();
   }, [pagination]);
+
+  useEffect(() => {
+    const getPagination = async () => {
+      setIsLoading(true);
+      setTimeout(async () => {
+        await UserServices.songPagination(songPagination)
+          .then((response) => {
+            setAllSongs(response.data);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+        await UserServices.getSongsCount()
+          .then((countResponse) => {
+            setTotalSongPages(Math.ceil(countResponse.data / songPagination.pageSize));
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+        setIsLoading(false);
+      }, 300);
+    };
+    getPagination();
+  }, [songPagination]);
 
   //! UseEffects Declarations End ---------------------------------------------------------------------------------------------------------------------------------
   return (
@@ -390,7 +471,8 @@ export const States = ({ children }) => {
         search,
         setSearch,
         shuffleArray,
-        setCurrentSongs
+        setCurrentSongs,
+        songPagination,setSongPagination,allSongs, setAllSongs,totalSongPages
       }}
     >
       {children}
