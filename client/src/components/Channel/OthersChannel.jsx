@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import UserServices from "../../services/UserServices";
-import { BiPlay, BiShuffle } from "react-icons/bi";
+import { BiShuffle } from "react-icons/bi";
 import { MdOutlineLibraryAdd } from "react-icons/md";
-import { RxDotsVertical } from "react-icons/rx";
 import SingleComponent from "../SingleComponent";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser, setUser } from "../../Slice/UserSlice";
@@ -28,6 +27,7 @@ const OthersChannel = () => {
   };
   useEffect(() => {
     getChannelData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [otheruid]);
   useEffect(() => {
     // eslint-disable-next-line
@@ -36,6 +36,7 @@ const OthersChannel = () => {
       setIsSupport(true);
     } else setIsSupport(false);
     getChannelData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   const addSupporters = async (uid, suid) => {

@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.music.models.PlayList;
-import com.music.models.Song;
 import com.music.services.PlayListServices;
 
 @RestController

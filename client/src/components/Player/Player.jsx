@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import LeftControl from "./LeftControl";
 import RightControl from "./RightControl";
 import SongDetail from "./SongDetail";
@@ -6,9 +6,7 @@ import { BiFullscreen } from "react-icons/bi";
 import { TbPictureInPictureOff } from "react-icons/tb";
 import Slider from "./Slider";
 import { useStates } from "../../context/useStates";
-import { useLocation, useParams } from "react-router-dom";
-import { axios } from "../../api/axios";
-import UserServices from "../../services/UserServices";
+import { useLocation } from "react-router-dom";
 
 const Player = () => {
   const { currentSong, handleNavigate } = useStates();

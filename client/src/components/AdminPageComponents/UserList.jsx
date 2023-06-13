@@ -1,12 +1,9 @@
 import React from "react";
 import { useStates } from "../../context/useStates";
-import { BsThreeDotsVertical } from "react-icons/bs";
-import { useNavigate } from "react-router-dom";
 
 const UserList = () => {
   const { allUsers, loading, handleNavigate, pagination, setPagination } =
     useStates();
-  const navigate = useNavigate();
   return (
     <div className="px-28 pb-20 w-full h-full max-lg:pb-28 relative min-h-[89vh]">
       {loading && (

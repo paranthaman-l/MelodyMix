@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { getUser } from "../../Slice/UserSlice";
-import { songs } from "../../constants";
 import SingleComponent from "../SingleComponent";
-import { useStates } from "../../context/useStates";
 import UserServices from "../../services/UserServices";
 const ListOfLikedSongs = () => {
   const user = useSelector(getUser);
@@ -19,6 +17,7 @@ const ListOfLikedSongs = () => {
   };
   useEffect(() => {
     getLikedSongs();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <div className="text-white my-16">

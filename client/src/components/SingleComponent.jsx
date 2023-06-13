@@ -4,7 +4,6 @@ import { getUser } from "../Slice/UserSlice";
 import { useSelector } from "react-redux";
 import { BsFillPlayFill } from "react-icons/bs";
 import { AiFillLike, AiOutlineDislike, AiOutlineLike } from "react-icons/ai";
-import { toast } from "react-hot-toast";
 
 const SingleComponent = ({ song, i }) => {
   const { setCurrentSongPlaying } = useStates();

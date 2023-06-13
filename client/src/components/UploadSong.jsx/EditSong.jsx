@@ -35,7 +35,8 @@ const EditSong = () => {
     });
   };
   const handleUpdate = async () => {
-    const response = await UserServices.updateSong(song?.sid, song);
+    // eslint-disable-next-line no-unused-vars
+    const response =  await UserServices.updateSong(song?.sid, song);
     const res = await UserServices.getUser(user?.uid);
     dispatch(setUser(res.data));
     setIsSongUpdate(false);

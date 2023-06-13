@@ -1,9 +1,7 @@
 import React, { useEffect, useRef } from "react";
-import { Player } from "../../components";
 import { useStates } from "../../context/useStates";
-import { useLocation, useParams } from "react-router-dom";
+import {  useParams } from "react-router-dom";
 import UserServices from "../../services/UserServices";
-import { TbPictureInPictureOff } from "react-icons/tb";
 import { BiFullscreen, BiPlay } from "react-icons/bi";
 import { BsPip } from "react-icons/bs";
 
@@ -16,7 +14,6 @@ const PlayerPage = () => {
     currentSongs,
   } = useStates();
   const { sid } = useParams();
-  const location = useLocation();
   const handleDragStart = (e, index) => {
     e.dataTransfer.setData("text/plain", index.toString());
   };
@@ -49,29 +46,20 @@ const PlayerPage = () => {
   };
 
   useEffect(() => {
+    const loadData = async () => {
+      await UserServices.getSongById(sid)
+        .then((response) => {
+          setCurrentSongPlaying(response.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
     loadData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const loadData = async () => {
-    await UserServices.getSongById(sid)
-      .then((response) => {
-        setCurrentSongPlaying(response.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
 
-  const handleDragEnd = (result) => {
-    if (!result.destination) {
-      return; // Item dropped outside a droppable area
-    }
-
-    const newItems = [...currentSongs];
-    const [removed] = newItems.splice(result.source.index, 1);
-    newItems.splice(result.destination.index, 0, removed);
-
-    setCurrentSongs(newItems);
-  };
+ 
 
   return (
     <div className="bg-black pt-24 ml-20 text-white justify-between w-screen max-h-screen flex items-center">

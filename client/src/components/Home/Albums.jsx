@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import OntopOption from "./OntopOption";
 import UserServices from "../../services/UserServices";
-import { BsFillPlayFill, BsThreeDotsVertical } from "react-icons/bs";
+import { BsFillPlayFill } from "react-icons/bs";
 import { RiPlayList2Fill } from "react-icons/ri";
 import { useStates } from "../../context/useStates";
 

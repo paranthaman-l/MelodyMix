@@ -3,7 +3,6 @@ import OntopOption from "./OntopOption";
 import { RiPlayList2Fill } from "react-icons/ri";
 import { BsFillPlayFill } from "react-icons/bs";
 import { useStates } from "../../context/useStates";
-import UserServices from "../../services/UserServices";
 import AdminUserServices from "../../services/AdminUserServices";
 const UsersDetails = () => {
   const containerRef = useRef(null);

@@ -4,7 +4,6 @@ import { BiDotsVerticalRounded } from "react-icons/bi";
 import { useStates } from "../context/useStates";
 import { useSelector } from "react-redux";
 import { getUser } from "../Slice/UserSlice";
-import { toast } from "react-hot-toast";
 
 const Like = ({ style }) => {
   const { addLikedSong, currentSong } = useStates();
@@ -15,10 +14,8 @@ const Like = ({ style }) => {
     const isLikeSong = user?.likedsongs?.find((sid) => sid === currentSong.sid);
     if (isLikeSong) {
       setLike(true);
-      // toast.success("Song Added to the Favorites");
     } else {
       setLike(false);
-      // toast.error("Song Removed to the Favorites")
     }
   }, [currentSong, user]);
 

@@ -3,11 +3,9 @@ import { useSelector } from "react-redux";
 import { getUser } from "../../Slice/UserSlice";
 import { TbShare3 } from "react-icons/tb";
 import Upload from "../UploadSong.jsx/Upload";
-import { UploadStates } from "../../context/songUploadContext";
 
 const ChannelTop = () => {
   const user = useSelector(getUser);
-  const {setIsSongUpload} = UploadStates();
   return (
     <>
     <Upload/>

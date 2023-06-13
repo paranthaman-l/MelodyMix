@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { axios } from "../api/axios";
 import UserServices from "../services/UserServices";
-import { RiPlayList2Fill } from "react-icons/ri";
-import { BsFillPlayFill } from "react-icons/bs";
 import { useStates } from "../context/useStates";
 
 const Mood = () => {
@@ -22,6 +19,7 @@ const Mood = () => {
       });
     };
     getAllSongs();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

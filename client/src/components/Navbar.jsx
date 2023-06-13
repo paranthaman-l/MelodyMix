@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from "react";
 import { navLinks, menuLinks, homeMode } from "../constants";
-import { FaChromecast } from "react-icons/fa";
 import { SiYoutubemusic } from "react-icons/si";
 import { IoSearchOutline } from "react-icons/io5";
 import { BiDotsVerticalRounded, BiArrowBack } from "react-icons/bi";

@@ -17,6 +17,7 @@ const AdminRoutes = () => {
           <Navbar  />
           <Toaster/>
           <Routes>
+            <Route path="/" element={<Home />} />
             <Route path="admin/" element={<Home />} />
             <Route path="admin/home" element={<Home />} />
             <Route path="admin/users" element={<Users />} />
