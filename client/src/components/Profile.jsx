@@ -4,7 +4,8 @@ import { FiEdit2, FiLogOut } from "react-icons/fi";
 import { BiUser, BiCloudUpload, BiDotsVerticalRounded } from "react-icons/bi";
 import { SiYoutubemusic } from "react-icons/si";
 import { profileList } from "../constants";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import {HiOutlineFaceSmile} from 'react-icons/hi2'
 import {
   MdOutlineArrowBack,
   MdOutlinePeopleAlt,
@@ -12,7 +13,7 @@ import {
   MdOutlineColorLens,
 } from "react-icons/md";
 import { GiEarthAmerica } from "react-icons/gi";
-import { BsCamera, BsChevronRight } from "react-icons/bs";
+import { BsCamera, BsChevronRight, BsExclamationCircle } from "react-icons/bs";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { useStates } from "../context/useStates";
 import { useSelector } from "react-redux";
@@ -66,10 +67,46 @@ const Profile = ({ profileRef }) => {
     };
     reader.readAsDataURL(file);
   };
+  const [isConfirmationOpen,setIsConfirmationOpen] = useState(false);
+  const openConfirmation = () => {
+    setIsConfirmationOpen(true);
+  };
 
+  const closeConfirmation = () => {
+    setIsConfirmationOpen(false);
+  };
+  useEffect(() => {
+    document.body.style.overflow =
+       isConfirmationOpen ? "hidden" : "auto";
+  }, [isConfirmationOpen]);
   return (
     <>
       <div className="fled flex-col bg-black2 text-white w-[360px] max-sm:w-full  max-sm:right-0 absolute right-5 rounded-2xl mt-4 -z-0">
+      {isConfirmationOpen && (
+        <div className="fixed top-0 left-0 h-screen w-screen  bg-black bg-opacity-80 z-10 flex justify-center items-center">
+          <div
+            // ref={deleteRef}
+            className={"h-56 w-96 rounded-lg bg-white text-black"}
+          >
+            <BsExclamationCircle className="text-red-700 text-2xl text-center w-full mt-4 mb-2" />
+            <h2 className="font-semibold text-center text-lg">Sign Out</h2>
+            <p className="text-center mt-4">
+            Are you sure you want to sign out?
+            </p>
+            <div className="flex justify-end mt-7 mr-4">
+              <button
+                onClick={handleSignOut}
+                className="text-red-700 px-2 py-1 mx-2"
+              >
+                Sign out
+              </button>
+              <button onClick={closeConfirmation} className="mx-2 flex items-center">
+                No <HiOutlineFaceSmile className="text-yellow-700 mx-1"/>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
         <p className="text-[12px] tracking-wide flex justify-center items-center font-sans py-1">
           This account managed by - MelodyMix.in
         </p>
@@ -124,7 +161,7 @@ const Profile = ({ profileRef }) => {
             <p className="font-roboto ">Get Music Premium</p>
           </li>
           <li
-            onClick={handleSignOut}
+            onClick={openConfirmation}
             className="flex items-center w-full hover:bg-[#373737] p-[9px]"
           >
             <FiLogOut className="mx-7 text-2xl" />

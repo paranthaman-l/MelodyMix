@@ -9,8 +9,6 @@ import OthersChannel from "../components/Channel/OthersChannel";
 import Movie from "../components/Movie";
 import { Toaster } from "react-hot-toast";
 import PageNotFound from "../components/404PageNotFound";
-import PlayList from "../components/Library/PlayList";
-import Mood from "../components/Mood";
 const AdminRoutes = () => {
   return (
     <div className="text-white">
@@ -25,7 +23,6 @@ const AdminRoutes = () => {
             <Route path="admin/songs" element={<Songs />} />
             <Route path="admin/player" element={<PlayerPage />} />
             <Route path="/player/:sid" element={<PlayerPage />} />
-            <Route path="/playlist/:pid" element={<PlayList />} />
             <Route path="/player" element={<PlayerPage />} />
             <Route path="/channel/:otheruid" element={<OthersChannel />} />
             <Route path="/movie/:movie" element={<Movie />} />

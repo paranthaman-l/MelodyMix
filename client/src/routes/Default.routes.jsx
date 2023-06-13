@@ -8,6 +8,9 @@ import OthersChannel from "../components/Channel/OthersChannel";
 import Movie from "../components/Movie";
 import LikedSongs from "../pages/users/LikedSongs";
 import { Toaster } from "react-hot-toast";
+import Explore from "../pages/users/Explore";
+import Channel from "../pages/users/Channel";
+import Mood from "../components/Mood";
 
 const DefaultRoutes = () => {
   return (
@@ -17,13 +20,16 @@ const DefaultRoutes = () => {
           <Navbar />
           <Toaster />
           <Routes>
-            <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home />} />
             <Route path="/home" element={<Home />} />
+            <Route path="/likedsongs" element={<LikedSongs />} />
+            <Route path="/explore" element={<Explore />} />
             <Route path="/upgrade" element={<Upgrade />} />
-            <Route path="/player" element={<PlayerPage />} />
+            <Route path="/player/:sid" element={<PlayerPage />} />
+            <Route path="/mychannel/:uid" element={<Channel />} />
             <Route path="/channel/:otheruid" element={<OthersChannel />} />
             <Route path="/movie/:movie" element={<Movie />} />
-            <Route path="/likedsongs" element={<LikedSongs />} />
+            <Route path="/mood/:mood" element={<Mood />} />
           </Routes>
           <Player />
         </ContextContainer>
