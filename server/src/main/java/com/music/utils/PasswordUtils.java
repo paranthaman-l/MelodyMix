@@ -3,7 +3,7 @@ package com.music.utils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class PasswordUtils {
-    private static BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private static BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
 
     public static String encryptPassword(String password) {
         return passwordEncoder.encode(password);

@@ -21,7 +21,7 @@ export const States = ({ children }) => {
   const [signUpFormUser, setSignUpFormUser] = useState({
     username: "",
     email: "",
-    profile: ["iconT.png24c6baf6-8838-459f-964e-09d92d3ffd13"],
+    profile: ["iconT.png"],
     password: "",
     confirmPassword: "",
   });

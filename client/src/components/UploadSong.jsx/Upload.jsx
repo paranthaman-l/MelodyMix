@@ -163,7 +163,6 @@ const Upload = () => {
                     Your videos will be private until you publish them.
                   </p>
                   <input
-            
                     type="file"
                     name=""
                     id=""
