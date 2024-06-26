@@ -90,7 +90,7 @@ const Songs = () => {
                 <td className="py-3 flex items-center justify-center">
                   <img
                     className="w-14 h-14 rounded-lg"
-                    src={`https://music-data-bucket.s3.ap-south-1.amazonaws.com/public/${song.thumnail}`}
+                    src={`${song.thumnail}`}
                     alt=""
                   />
                 </td>

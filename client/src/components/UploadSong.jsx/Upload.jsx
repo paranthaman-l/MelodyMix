@@ -118,7 +118,10 @@ const Upload = () => {
   const uploadSongAndImage = async () => {
     setLoading(true);
     const uint8Array = new Uint8Array(songDetails?.image?.data);
-    handleUploadSongImage(uint8Array);
+    const songImg = new File([uint8Array], "image.png", {
+      type: "image/png",
+    });
+    handleUploadSongImage(songImg);
     handleUploadSong(file);
   };
   return (

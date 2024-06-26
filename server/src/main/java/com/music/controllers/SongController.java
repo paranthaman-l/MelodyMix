@@ -60,13 +60,13 @@ public class SongController {
         return songServices.getByMovie(mid);
     }
 
-    @PutMapping("/addimg/{sid}/{filename}")
-    public void addImg(@PathVariable String sid, @PathVariable String filename) {
+    @PutMapping("/addimg/{sid}")
+    public void addImg(@PathVariable String sid, @RequestParam String filename) {
         songServices.addImg(sid, filename);
     }
 
-    @PutMapping("/addsongurl/{sid}/{filename}")
-    public Song addSongUrl(@PathVariable String sid, @PathVariable String filename) {
+    @PutMapping("/addsongurl/{sid}")
+    public Song addSongUrl(@PathVariable String sid, @RequestParam String filename) {
         return songServices.addSongUrl(sid, filename);
     }
 

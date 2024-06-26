@@ -48,7 +48,7 @@ const Albums = () => {
                 <div className="relative group mb-2">
                   <img
                     className="w-48 h-48 rounded-md hover:cursor-pointer"
-                    src={`https://music-data-bucket.s3.ap-south-1.amazonaws.com/public/${movie.movieimg}`}
+                    src={`${movie.movieimg}`}
                     alt=""
                   />
                   <div className="absolute invisible bg-black cursor-pointer bg-opacity-40 h-48 w-48 top-0 left-0 group-hover:visible">

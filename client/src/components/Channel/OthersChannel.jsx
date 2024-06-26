@@ -56,7 +56,7 @@ const OthersChannel = () => {
         <img
           className="h-64 w-64 rounded-lg "
           src={
-            `https://music-data-bucket.s3.ap-south-1.amazonaws.com/public/${
+            `${
               userData?.profile[userData?.profile?.length - 1]
             }` || ""
           }

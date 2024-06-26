@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getUser, logout, setUser } from "../Slice/UserSlice";
 import UserServices from "../services/UserServices";
-import { Storage } from "aws-amplify";
 import { signUpQuotes, songs } from "../constants";
 import { setAdmin } from "../Slice/AdminSlice";
 import toast from 'react-hot-toast';
@@ -259,18 +258,46 @@ export const States = ({ children }) => {
 
   const handleProfileUpload = async (file) => {
     setIsLoading(true);
-    await Storage.put(file.name, file)
-      .then(async (response) => {
-        await UserServices.updateProfile(user?.uid, `${response.key}`).then(
+    // await Storage.put(file.name, file)
+    //   .then(async (response) => {
+        // await UserServices.updateProfile(user?.uid, `${response.key}`).then(
+        //   (response1) => {
+        //     dispatch(setUser(response1.data));
+            // setIsLoading(false);
+        //   }
+        // );
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+    const selectedImage = file;
+    if (selectedImage) {
+      const imageData = new FormData();
+      imageData.append("file", selectedImage);
+      imageData.append("upload_preset", "melodymix");
+      try {
+        const response = await fetch(
+          `https://api.cloudinary.com/v1_1/dnzd8rvd4/upload`,
+          {
+            method: "POST",
+            body: imageData,
+          }
+        );
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.json();
+        console.log(data.secure_url);
+        await UserServices.updateProfile(user?.uid, data.secure_url).then(
           (response1) => {
             dispatch(setUser(response1.data));
             setIsLoading(false);
           }
         );
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      } catch (error) {
+        console.error("Error uploading image to Cloudinary:", error);
+      }
+    }
     setTimeout(() => {
       setUpdatePath(1);
     }, 2000);

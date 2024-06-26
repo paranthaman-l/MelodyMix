@@ -64,10 +64,10 @@ class UserServices {
   }
 
   addImage(sid, filename) {
-    axios.put(`songs/addimg/${sid}/${filename}`);
+    axios.put(`songs/addimg/${sid}`, {}, { params: { filename } });
   }
   addSongUrl(sid, filename) {
-    return axios.put(`songs/addsongurl/${sid}/${filename}`);
+    return axios.put(`songs/addsongurl/${sid}`, {}, { params: { filename } });
   }
 
   updateSong(sid, song) {
@@ -113,7 +113,7 @@ class UserServices {
   getSongById(sid) {
     return axios.get("/songs/getById", { params: { sid: sid } });
   }
-  getPlayList(pid){
+  getPlayList(pid) {
     return axios.get("/playlists/getPlayList", { params: { pid: pid } });
   }
 }

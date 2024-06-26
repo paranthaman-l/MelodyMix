@@ -85,7 +85,7 @@ const UserList = () => {
                   <img
                     className="w-14 h-14 rounded-lg"
                     src={
-                      `https://music-data-bucket.s3.ap-south-1.amazonaws.com/public/${
+                      `${
                         user?.profile[user?.profile?.length - 1]
                       }` || ""
                     }

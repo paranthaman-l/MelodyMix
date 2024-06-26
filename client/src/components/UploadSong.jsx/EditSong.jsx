@@ -119,11 +119,11 @@ const EditSong = () => {
                   <div className="flex flex-col items-center mx-10 h-fit">
                     <img
                       className="w-48 h-48 rounded-sm m-2"
-                      src={`https://music-data-bucket.s3.ap-south-1.amazonaws.com/public/${song.thumnail}`}
+                      src={`${song.thumnail}`}
                       alt=""
                     />
                     <audio
-                      src={`https://music-data-bucket.s3.ap-south-1.amazonaws.com/public/${song.audio}`}
+                      src={`${song.audio}`}
                       ref={audioRef}
                       className=""
                       controls

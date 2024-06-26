@@ -13,7 +13,8 @@ const Audio = () => {
       <audio
         className="h-10 mx-3"
         ref={audioRef}
-        src={`https://music-data-bucket.s3.ap-south-1.amazonaws.com/public/${currentSong?.audio}`}
+        // src={`${currentSong?.audio}`}
+        src={`${currentSong?.audio}`}
         loop={isLoop}
         onEnded={() => {addView(currentSong.sid);nextSong();}}
       ></audio>

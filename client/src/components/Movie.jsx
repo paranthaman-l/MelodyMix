@@ -52,7 +52,7 @@ const Movie = () => {
       <div className="flex items-center">
         <img
           className="w-64 h-64  max-lg:w-2/6 max-lg:h-2/6 max-md:w-3/6 max-md:h-3/6 rounded-md"
-          src={`https://music-data-bucket.s3.ap-south-1.amazonaws.com/public/${movieData?.movieimg}`}
+          src={`${movieData?.movieimg}`}
           alt=""
         />
         <div className="flex flex-col ml-14">

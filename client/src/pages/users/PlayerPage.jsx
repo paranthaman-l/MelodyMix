@@ -76,7 +76,7 @@ const PlayerPage = () => {
         </div>
         <img
           className="w-11/12 ml-10 object-contain"
-          src={`https://music-data-bucket.s3.ap-south-1.amazonaws.com/public/${currentSong?.thumnail}`}
+          src={`${currentSong?.thumnail}`}
           alt=""
         />
       </div>
@@ -114,7 +114,7 @@ const PlayerPage = () => {
                   </div>
                   <img
                     className="h-10 w-10 object-contain"
-                    src={`https://music-data-bucket.s3.ap-south-1.amazonaws.com/public/${song?.thumnail}`}
+                    src={`${song?.thumnail}`}
                     alt=""
                   />
                   <div className="flex flex-col ml-3">

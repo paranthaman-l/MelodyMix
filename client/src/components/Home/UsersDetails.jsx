@@ -46,7 +46,7 @@ const UsersDetails = () => {
                   <img
                     className="w-48 h-48 rounded-full hover:cursor-pointer"
                     src={
-                        `https://music-data-bucket.s3.ap-south-1.amazonaws.com/public/${
+                        `${
                           user?.profile[user?.profile?.length - 1]
                         }` || ""
                       }

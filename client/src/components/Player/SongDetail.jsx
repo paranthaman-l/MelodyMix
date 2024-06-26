@@ -9,7 +9,7 @@ const SongDetail = () => {
     <div className="w-6/12 bg h-full flex justify-center items-center px-2 max-lg:w-8/12 max-md:w-full">
       <img
         className="w-10 h-10 max-lg:hidden rounded-md"
-        src={`https://music-data-bucket.s3.ap-south-1.amazonaws.com/public/${currentSong?.thumnail}`}
+        src={`${currentSong?.thumnail}`}
         alt=""
       />
       <div className="flex flex-col w-10/12 justify-center text-base font-roboto mx-2 max-lg:text-sm">

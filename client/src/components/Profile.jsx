@@ -5,7 +5,7 @@ import { BiUser, BiCloudUpload, BiDotsVerticalRounded } from "react-icons/bi";
 import { SiYoutubemusic } from "react-icons/si";
 import { profileList } from "../constants";
 import { useEffect, useRef, useState } from "react";
-import {HiOutlineFaceSmile} from 'react-icons/hi2'
+import { HiOutlineFaceSmile } from 'react-icons/hi2'
 import {
   MdOutlineArrowBack,
   MdOutlinePeopleAlt,
@@ -28,17 +28,17 @@ const Profile = ({ profileRef }) => {
     setUpdatePath,
     handleNavigate,
   } = useStates();
+  const { setIsSongUpload } = UploadStates();
   const user = useSelector(getUser);
   const [isUpdateProfile, setIsUpdateProfile] = useState(false);
   const [chooseOptions, setChooseOptions] = useState(1);
 
   const [selecedImg, setSelecedImg] = useState(null);
   const [img, setImg] = useState(null);
-  const {setIsSongUpload} = UploadStates();
   const [dragging, setDragging] = useState(false);
   const fileInputRef = useRef(null);
 
-  const handleFileInputChange = (event) => {
+  const handleFileInputChange = async (event) => {
     const selectedFile = event.target.files[0];
     setImg(selectedFile);
     const reader = new FileReader();
@@ -46,6 +46,7 @@ const Profile = ({ profileRef }) => {
       setSelecedImg(e.target.result);
     };
     reader.readAsDataURL(selectedFile);
+   
   };
   const handleDragOver = (event) => {
     event.preventDefault();
@@ -67,7 +68,7 @@ const Profile = ({ profileRef }) => {
     };
     reader.readAsDataURL(file);
   };
-  const [isConfirmationOpen,setIsConfirmationOpen] = useState(false);
+  const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
   const openConfirmation = () => {
     setIsConfirmationOpen(true);
   };
@@ -77,36 +78,36 @@ const Profile = ({ profileRef }) => {
   };
   useEffect(() => {
     document.body.style.overflow =
-       isConfirmationOpen ? "hidden" : "auto";
+      isConfirmationOpen ? "hidden" : "auto";
   }, [isConfirmationOpen]);
   return (
     <>
       <div className="fled flex-col bg-black2 text-white w-[360px] max-sm:w-full  max-sm:right-0 absolute right-5 rounded-2xl mt-4 -z-0">
-      {isConfirmationOpen && (
-        <div className="fixed top-0 left-0 h-screen w-screen  bg-black bg-opacity-80 z-10 flex justify-center items-center">
-          <div
-            // ref={deleteRef}
-            className={"h-56 w-96 rounded-lg bg-white text-black"}
-          >
-            <BsExclamationCircle className="text-red-700 text-2xl text-center w-full mt-4 mb-2" />
-            <h2 className="font-semibold text-center text-lg">Sign Out</h2>
-            <p className="text-center mt-4">
-            Are you sure you want to sign out?
-            </p>
-            <div className="flex justify-end mt-7 mr-4">
-              <button
-                onClick={handleSignOut}
-                className="text-red-700 px-2 py-1 mx-2"
-              >
-                Sign out
-              </button>
-              <button onClick={closeConfirmation} className="mx-2 flex items-center">
-                No <HiOutlineFaceSmile className="text-yellow-700 mx-1"/>
-              </button>
+        {isConfirmationOpen && (
+          <div className="fixed top-0 left-0 h-screen w-screen  bg-black bg-opacity-80 z-10 flex justify-center items-center">
+            <div
+              // ref={deleteRef}
+              className={"h-56 w-96 rounded-lg bg-white text-black"}
+            >
+              <BsExclamationCircle className="text-red-700 text-2xl text-center w-full mt-4 mb-2" />
+              <h2 className="font-semibold text-center text-lg">Sign Out</h2>
+              <p className="text-center mt-4">
+                Are you sure you want to sign out?
+              </p>
+              <div className="flex justify-end mt-7 mr-4">
+                <button
+                  onClick={handleSignOut}
+                  className="text-red-700 px-2 py-1 mx-2"
+                >
+                  Sign out
+                </button>
+                <button onClick={closeConfirmation} className="mx-2 flex items-center">
+                  No <HiOutlineFaceSmile className="text-yellow-700 mx-1" />
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
         <p className="text-[12px] tracking-wide flex justify-center items-center font-sans py-1">
           This account managed by - MelodyMix.in
         </p>
@@ -116,8 +117,7 @@ const Profile = ({ profileRef }) => {
               <img
                 className="w-16 h-16 relative rounded-full "
                 src={
-                  `https://music-data-bucket.s3.ap-south-1.amazonaws.com/public/${
-                    user?.profile[user?.profile?.length - 1]
+                  `${user?.profile[user?.profile?.length - 1]
                   }` || ""
                 }
                 alt=""
@@ -151,8 +151,8 @@ const Profile = ({ profileRef }) => {
             <p className="font-roboto ">Your Channel</p>
           </li>
           <li
-           onClick={()=>{handleNavigate(`/mychannel/${user?.uid}`);setIsSongUpload(true)}}
-          className="flex items-center w-full hover:bg-[#373737] p-[9px]">
+            onClick={() => { handleNavigate(`/mychannel/${user?.uid}`); setIsSongUpload(true) }}
+            className="flex items-center w-full hover:bg-[#373737] p-[9px]">
             <BiCloudUpload className="mx-7 text-2xl" />
             <p className="font-roboto ">Upload Music</p>
           </li>
@@ -239,8 +239,7 @@ const Profile = ({ profileRef }) => {
                     onClick={() => setUpdatePath(3)}
                     className="w-8/12 mx-auto object-contain rounded-full mt-2"
                     src={
-                      `https://music-data-bucket.s3.ap-south-1.amazonaws.com/public/${
-                        user?.profile[user?.profile?.length - 1]
+                      `${user?.profile[user?.profile?.length - 1]
                       }` || ""
                     }
                     alt=""
@@ -352,9 +351,8 @@ const Profile = ({ profileRef }) => {
                 <div className="w-full flex justify-between items-center text-[#C4C7C5] border-b-[1px] border-half-black ">
                   <div
                     onClick={() => setChooseOptions(1)}
-                    className={`${
-                      chooseOptions === 1 && "text-[#8ab4f8]"
-                    } w-1/2 flex flex-col  items-center cursor-pointer hover:bg-gray-500 h-full hover:bg-opacity-20 group py-2`}
+                    className={`${chooseOptions === 1 && "text-[#8ab4f8]"
+                      } w-1/2 flex flex-col  items-center cursor-pointer hover:bg-gray-500 h-full hover:bg-opacity-20 group py-2`}
                   >
                     <MdOutlineColorLens className="group-hover:text-white" />
                     <p className="text-base group-hover:text-white py-1 ">
@@ -363,9 +361,8 @@ const Profile = ({ profileRef }) => {
                   </div>
                   <div
                     onClick={() => setChooseOptions(2)}
-                    className={`${
-                      chooseOptions === 2 && "text-[#8ab4f8]"
-                    } w-1/2 flex flex-col  items-center cursor-pointer hover:bg-gray-500 h-full hover:bg-opacity-20 group py-2`}
+                    className={`${chooseOptions === 2 && "text-[#8ab4f8]"
+                      } w-1/2 flex flex-col  items-center cursor-pointer hover:bg-gray-500 h-full hover:bg-opacity-20 group py-2`}
                   >
                     <MdComputer className="group-hover:text-white" />
                     <p className="text-base group-hover:text-white py-1">
@@ -379,13 +376,12 @@ const Profile = ({ profileRef }) => {
                       return (
                         <div
                           key={i}
-                          className={`w-24 h-24 mx-3 ${
-                            i === user?.profile?.length - 1 && "hidden"
-                          }`}
+                          className={`w-24 h-24 mx-3 ${i === user?.profile?.length - 1 && "hidden"
+                            }`}
                         >
                           <img
                             className="w-full h-full rounded-full"
-                            src={`https://music-data-bucket.s3.ap-south-1.amazonaws.com/public/${profile}`}
+                            src={`${profile}`}
                             alt=""
                           />
                         </div>
@@ -399,9 +395,8 @@ const Profile = ({ profileRef }) => {
                     onDragLeave={handleDragLeave}
                     onDrop={handleDrop}
                     style={{
-                      border: `1px dashed ${
-                        dragging ? "green" : "transparent"
-                      }`,
+                      border: `1px dashed ${dragging ? "green" : "transparent"
+                        }`,
                       padding: "20px",
                       textAlign: "center",
                     }}

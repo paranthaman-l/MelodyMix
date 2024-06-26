@@ -47,7 +47,7 @@ const Player = () => {
             </div>
             <img
               className="rounded-md  w-full h-full max-lg:w-10/12 max-lg:h-5/6"
-              src={`https://music-data-bucket.s3.ap-south-1.amazonaws.com/public/${currentSong?.thumnail}`}
+              src={`${currentSong?.thumnail}`}
               alt=""
             />
           </div>

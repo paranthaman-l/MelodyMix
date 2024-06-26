@@ -77,7 +77,7 @@ const Channel = () => {
           </div>
         </div>
       )}
-      {user.songs.length !== 0 ? (
+      {user?.songs?.length !== 0 ? (
         <div className="w-full mb-24 mt-4">
           <p className="mx-14 text-2xl mb-4 font-semibold font-roboto">
             Your's Songs
@@ -95,13 +95,13 @@ const Channel = () => {
               {/* </div> */}
             </tr>
             <tbody className="">
-              {user.songs.map((song) => {
+              {user?.songs?.map((song) => {
                 return (
                   <tr className="hover:bg-half-black1 group">
                     <td className="py-3 flex items-center justify-center">
                       <img
                         className="w-14 h-14 rounded-lg"
-                        src={`https://music-data-bucket.s3.ap-south-1.amazonaws.com/public/${song.thumnail}`}
+                        src={`${song.thumnail}`}
                         alt=""
                       />
                     </td>

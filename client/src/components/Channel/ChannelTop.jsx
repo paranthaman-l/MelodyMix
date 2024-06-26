@@ -14,7 +14,7 @@ const ChannelTop = () => {
           <img
             className="w-48 h-48 relative rounded-full object-cover"
             src={
-              `https://music-data-bucket.s3.ap-south-1.amazonaws.com/public/${
+              `${
                 user?.profile[user?.profile?.length - 1]
               }` || ""
             }

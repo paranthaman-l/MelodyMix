@@ -38,7 +38,7 @@ const Mood = () => {
                 <div className="relative group mb-2">
                   <img
                     className="w-48 h-48 rounded-md hover:cursor-pointer"
-                    src={`https://music-data-bucket.s3.ap-south-1.amazonaws.com/public/${song.thumnail}`}
+                    src={`${song.thumnail}`}
                     alt=""
                   />
                   <div

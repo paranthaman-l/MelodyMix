@@ -66,7 +66,7 @@ const SingleSongComponent = ({ song, i }) => {
         </div>
         <img
           className="w-full h-full rounded-md min-w-fit"
-        src={`https://music-data-bucket.s3.ap-south-1.amazonaws.com/public/${song.thumnail}`}
+        src={`${song.thumnail}`}
           alt=""
         />
       </div>

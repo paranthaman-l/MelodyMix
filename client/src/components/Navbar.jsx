@@ -139,7 +139,7 @@ const Navbar = () => {
                         <img
                           className="w-16 h-16 rounded-md ml-2"
                           src={
-                            `https://music-data-bucket.s3.ap-south-1.amazonaws.com/public/${song.thumnail}` ||
+                            `${song.thumnail}` ||
                             ""
                           }
                           alt=""
@@ -256,7 +256,7 @@ const Navbar = () => {
                 isShowProfile && "bg-slate-500 rounded-2xl"
               }`}
               src={
-                `https://music-data-bucket.s3.ap-south-1.amazonaws.com/public/${
+                `${
                   user?.profile[user?.profile?.length - 1]
                 }` || ""
               }

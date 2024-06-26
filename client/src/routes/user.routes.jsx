@@ -12,6 +12,7 @@ import Explore from "../pages/users/Explore";
 import Mood from "../components/Mood";
 import PlayList from "../components/Library/PlayList";
 import PageNotFound from "../components/404PageNotFound";
+import Plans from "../pages/users/Plans";
 
 const UserRoutes = () => {
   return (
@@ -27,6 +28,7 @@ const UserRoutes = () => {
             <Route path="/library" element={<Library />} />
             <Route path="/explore" element={<Explore />} />
             <Route path="/upgrade" element={<Upgrade />} />
+            <Route path="/plans" element={<Plans />} />
             <Route path="/player/:sid" element={<PlayerPage />} />
             <Route path="/playlist/:pid" element={<PlayList />} />
             <Route path="/mychannel/:uid" element={<Channel />} />
